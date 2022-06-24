@@ -9,16 +9,6 @@ const getReview = async (req, res) => {
       err.statusCode = 400;
       throw err;
     }
-
-    const reviewInfo = await reviewService.getReview(roomId);
-
-    if (reviewInfo === []) {
-      const err = new Error('REVIEW_NOT_FOUND');
-      err.statusCode = 404;
-      throw err;
-    }
-
-    return res.status(200).json({ message: 'REVIEW', reviewInfo });
   } catch (err) {
     console.log(err);
     return res

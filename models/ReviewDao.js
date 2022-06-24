@@ -18,14 +18,4 @@ const getReview = async roomId => {
   return review;
 };
 
-function createReview(review, score, user_id, room_id, reservation_id) {
-  return prisma.$queryRaw`
-  Insert Into review(review, score, user_id, room_id, reservation_id) 
-  VALUES (${review}, ${score}, ${user_id}, ${room_id}, ${reservation_id})`;
-}
-
-function updateReview() {}
-
-function deleteReview() {}
-
 module.exports = { getReview };
