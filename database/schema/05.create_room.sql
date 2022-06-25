@@ -14,10 +14,9 @@ CREATE TABLE room
   residential_type int,
   room_type int,
   location_type int,
-  room_wishes boolean,
   primary key (id),
   foreign key (host_id) references users(id) ON DELETE CASCADE,
   foreign key (room_type) references roomType(id) ON DELETE CASCADE,
   foreign key (residential_type) references residentialType(id) ON DELETE CASCADE,
   foreign key (location_type) references locationType(id) ON DELETE CASCADE
-)
+);
