@@ -15,23 +15,19 @@ app.use(express.json());
 app.use(routes);
 
 app.post('/review', async (req, res) => {
-  // 1
   try {
-    // 2
-
-    const { review, score, user_id, room_id, reservation_id } = req.body; // 3
+    const { review, score, user_id, room_id, reservation_id } = req.body;
 
     console.log('review: ', review, 'score: ', score);
 
-    const createdUser = await prisma.$queryRaw`
+    const createdReview = await prisma.$queryRaw`
     Insert Into review(review, score, user_id, room_id, reservation_id) 
-    VALUES (${review}, ${score}, ${user_id}, ${room_id}, ${reservation_id})`; // 4
+    VALUES (${review}, ${score}, ${user_id}, ${room_id}, ${reservation_id})`;
 
-    return res.status(201).json({ message: 'CREATED' }); // 5
+    return res.status(201).json({ message: 'CREATED' });
   } catch (err) {
-    // 2
     console.log(err);
-    return res.status(500).json({ message: err.message }); // 6
+    return res.status(500).json({ message: err.message });
   }
 });
 
