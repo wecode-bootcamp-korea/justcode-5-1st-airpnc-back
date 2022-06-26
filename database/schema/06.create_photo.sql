@@ -4,4 +4,4 @@ file_url varchar(3000) NOT NULL,
 room_id int NOT NULL,
 PRIMARY KEY(id),
 FOREIGN KEY(room_id) REFERENCES room(id) ON DELETE CASCADE
-)
+);

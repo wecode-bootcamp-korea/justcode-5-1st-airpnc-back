@@ -3,4 +3,4 @@ CREATE TABLE city(
  country VARCHAR(50),
  name VARCHAR(50) NOT NULL,
  PRIMARY KEY(id)
-)
+);
