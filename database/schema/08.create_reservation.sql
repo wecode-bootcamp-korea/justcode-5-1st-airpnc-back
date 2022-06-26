@@ -1,8 +1,8 @@
 CREATE TABLE reservation(
   id INT NOT NULL AUTO_INCREMENT,
   reservation_no varchar(50),
-  check_in date,
-  check_out date,
+  check_in date not null,
+  check_out date not null,
   guests int,
   user_id int,
   room_id int,
