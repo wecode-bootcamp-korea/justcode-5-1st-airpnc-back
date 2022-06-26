@@ -9,5 +9,5 @@ CREATE TABLE reservation(id INT NOT NULL AUTO_INCREMENT,
   updated_at DATETIME,
   primary key(id), 
   FOREIGN key (room_id) REFERENCES room(id) ON DELETE CASCADE,
-  FOREIGN key (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN key (user_id) REFERENCES users(id) ON DELETE CASCADE
 )
