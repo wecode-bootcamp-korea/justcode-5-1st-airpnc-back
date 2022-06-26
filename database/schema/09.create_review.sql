@@ -1,7 +1,7 @@
 CREATE TABLE review(
   id INT NOT NULL AUTO_INCREMENT,
   review text NOT NULL,
-  score INT,
+  score float,
   user_id INT NOT NULL,
   room_id INT NOT NULL,
   reservation_id INT NOT NULL,
