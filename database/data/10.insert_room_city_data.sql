@@ -1,5 +1,15 @@
-INSERT INTO room_city(city_id, room_id) 
+INSERT INTO room_city(room_id, city_id) 
 VALUES
 (1,1),
 (2,2),
-(3,3)
+(3,3),
+(4,12),
+(5,7),
+(6,8),
+(7,9),
+(8,10),
+(9,10),
+(10,6),
+(11,6),
+(12,6),
+(13,13);
