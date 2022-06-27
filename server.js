@@ -4,6 +4,9 @@ const http = require('http');
 const express = require('express');
 const cors = require('cors');
 
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
+
 const homeRoutes = require('./routes/home');
 const detailRoutes = require('./routes/detail');
 const reservationRoutes = require('./routes/reservation');
@@ -15,6 +18,12 @@ const signupRoutes = require('./routes/signup');
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+////////// TEST ///////////////
+app.get('/ping', (req, res) => {
+  res.json({ message: 'pong' });
+});
+///////////////////////////////
 
 app.use(homeRoutes);
 app.use(detailRoutes);
@@ -34,11 +43,13 @@ const PORT = process.env.PORT || 10010;
 
 const start = async () => {
   try {
+    console.log("start trying here")
     server.listen(PORT, () => {
       console.log(`server start : http://localhost:${PORT}/`);
     });
   } catch (err) {
     console.err(err);
+    await prisma.$disconnect();
   }
 };
 
