@@ -39,6 +39,7 @@ const start = async () => {
     });
   } catch (err) {
     console.err(err);
+    await prisma.$disconnect();
   }
 };
 
