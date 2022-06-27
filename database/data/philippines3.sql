@@ -1,0 +1,3 @@
+Insert Into room(name, description, price, address, guests, beds, bedrooms, baths, instant_book, host_id, residential_type, room_type, location_type) 
+  VALUES ('Tablas Point Beach Resort King Room', '타블라스 포인트 비치 리조트의 사파리 텐트는 50평방미터 크기에 킹사이즈 침대가 있습니다. 더블 시트 1개, 커피 테이블이 있는 싱글 시트 의자 2개, 식탁 4개, 미니 바 냉장고, 산업용 선풍기 및 찬장을 갖춘 거실 공간이 있습니다. 바다를 직접 감상할 수 있는 넓은 발코니와 좌석 공간이 마련되어 있습니다. 천막에서 몇 걸음 거리에 있는 야외 화장실과 샤워실에는 세면도구가 완비되어 있습니다.',
+   55777, 'Santa Fe, MIMAROPA, Philippines', 3, 1, 1, 1, false, 2, 6, 1,2);
