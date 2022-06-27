@@ -1,1 +1,0 @@
-INSERT INTO review(id, review, score,)
