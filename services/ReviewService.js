@@ -1,4 +1,3 @@
-//const { reviewDao } = require('../models');
 const { readDetail } = require('../models/ReviewDao');
 
 // async function isExistReview(id) {
@@ -11,8 +10,13 @@ const { readDetail } = require('../models/ReviewDao');
 // }
 
 async function readReview(id) {
-  const reviews = await readReview(id);
+  const reviews = await readDetail(id);
   return reviews;
 }
+
+/*
+async function readReview(id) {
+  await readDetail(id);
+}*/
 
 module.exports = { readReview };
