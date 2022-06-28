@@ -1,29 +1,18 @@
 //const { reviewService } = require('../services');
 
-const { isExistReview, readReview } = require('../services/ReviewService');
+const { updateReviewService } = require('../services/ReviewService');
 
-/*
-const readReviews = async (req, res, next) => {
+const updateReviewController = async (req, res) => {
   try {
     let { id } = req.params;
-    //await isExistReview(id);
-    const reviews = await readReview(id);
-    return res.status(201).json({ data: reviews });
-  } catch (err) {
-    next(err);
-  }
-};*/
+    const { review, score } = req.body;
+    await updateReviewService(review, score, id);
 
-const readReviews = async (req, res) => {
-  try {
-    let { id } = req.params;
-    //await isExistReview(id);
-    const reviews = await readReview(id);
-    return res.status(201).json({ data: reviews });
+    return res.status(201).json({ message: 'UPDATED' });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: err.message });
   }
 };
 
-module.exports = { readReviews };
+module.exports = { updateReviewController };

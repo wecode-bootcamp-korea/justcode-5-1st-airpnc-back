@@ -14,6 +14,7 @@ const myPageRoutes = require('./routes/myPage');
 const wishListRoutes = require('./routes/wishList');
 const loginRoutes = require('./routes/login');
 const signupRoutes = require('./routes/signup');
+const reviewRoutes = require('./routes/ReviewRouter');
 
 const app = express();
 app.use(cors());
@@ -34,6 +35,7 @@ app.use(loginRoutes);
 app.use(signupRoutes);
 app.use('/review', reviewRoutes);
 
+/*
 // 리뷰 수정하기
 app.put('/review/:id', async (req, res) => {
   try {
@@ -51,6 +53,7 @@ app.put('/review/:id', async (req, res) => {
     return res.status(500).json({ message: err.message });
   }
 });
+*/
 
 app.use((err, req, res, next) => {
   console.error(err);
