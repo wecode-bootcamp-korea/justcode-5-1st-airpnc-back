@@ -38,12 +38,30 @@ app.use((err, req, res, next) => {
   res.status(err.statusCode || 500).json({ message: err.message });
 });
 
+// 리뷰 수정하기
+app.put('/review/:id', async (req, res) => {
+  try {
+    let { id } = req.params;
+    const { review, score } = req.body;
+
+    console.log('review: ', review, 'score: ', score);
+
+    const udatedReview = await prisma.$queryRaw`
+    update review set review=${review}, score=${score} where id=${id};`;
+
+    return res.status(201).json({ message: 'UPDATED' });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: err.message });
+  }
+});
+
 const server = http.createServer(app);
 const PORT = process.env.PORT || 10010;
 
 const start = async () => {
   try {
-    console.log("start trying here")
+    console.log('start trying here');
     server.listen(PORT, () => {
       console.log(`server start : http://localhost:${PORT}/`);
     });
