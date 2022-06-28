@@ -38,12 +38,28 @@ app.use((err, req, res, next) => {
   res.status(err.statusCode || 500).json({ message: err.message });
 });
 
+// 리뷰 삭제하기
+app.delete('/review/:id', async (req, res) => {
+  //const id = req.query.id;
+  //console.log(id);
+  let { id } = req.params;
+  const reviews = await prisma.$queryRaw`
+  DELETE FROM review WHERE id=${id}`;
+
+  // 2. return response
+  return res.status(200).json({ data: reviews });
+});
+
+app.get('/ping', (req, res) => {
+  res.json({ message: 'pong' });
+});
+
 const server = http.createServer(app);
 const PORT = process.env.PORT || 10010;
 
 const start = async () => {
   try {
-    console.log("start trying here")
+    console.log('start trying here');
     server.listen(PORT, () => {
       console.log(`server start : http://localhost:${PORT}/`);
     });
