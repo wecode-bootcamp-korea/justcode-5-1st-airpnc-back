@@ -1,10 +1,10 @@
-const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
+//const { Prisma, PrismaClient } = require('@prisma/client');
+//const prisma = new PrismaClient();
 
-module.exports = prisma;
+//module.exports = prisma;
 
-const reviewDao = require('./ReviewDao');
+// const reviewDao = require('./ReviewDao');
 
-module.exports = {
-  reviewDao,
-};
+// module.exports = {
+//   reviewDao,
+// };

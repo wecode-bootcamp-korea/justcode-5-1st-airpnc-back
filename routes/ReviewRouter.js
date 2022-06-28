@@ -1,8 +1,11 @@
-const express = require('express');
-const router = express.Router();
+const { Router } = require('express');
+//const asyncWrap = require('../async-wrap');
+const router = Router();
 
-const { reviewController } = require('../controllers');
+const { createReview } = require('../controllers/ReviewController');
 
-router.get('/', reviewController.getReview);
+//router.get('/', reviewController.getReview);
+//console.log('콘솔!!', createReview);
+router.post('/', createReview);
 
 module.exports = router;
