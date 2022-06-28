@@ -14,7 +14,7 @@ const myPageRoutes = require('./routes/myPage');
 const wishListRoutes = require('./routes/wishList');
 const loginRoutes = require('./routes/login');
 const signupRoutes = require('./routes/signup');
-const reviewRoutes = require('./routes/ReviewRouter.js');
+const reviewRoutes = require('./routes/ReviewRouter');
 
 const app = express();
 app.use(cors());
@@ -33,7 +33,7 @@ app.use(myPageRoutes);
 app.use(wishListRoutes);
 app.use(loginRoutes);
 app.use(signupRoutes);
-app.use('/review', reviewRoutes);
+app.use(reviewRoutes);
 
 /*
 // 리뷰 삭제하기
