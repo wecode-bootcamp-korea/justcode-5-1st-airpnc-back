@@ -1,19 +1,18 @@
-const { reviewDao } = require('../models');
+//const { reviewDao } = require('../models');
+const { readDetail } = require('../models/ReviewDao');
 
-const getReview = async roomId => {
-  const reviewInfo = {};
+// async function isExistReview(id) {
+//   const findReview = await find(id);
+//   if (findReview.length === 0) {
+//     const error = new Error('REVIEW-NOT-FOUND');
+//     error.statusCode = 404;
+//     throw error;
+//   }
+// }
 
-  const roomReview = await reviewDao.getReview(roomId);
+async function readReview(id) {
+  const reviews = await readReview(id);
+  return reviews;
+}
 
-  if (!roomReview) {
-    const error = new Error('REVIEW_LOAD_FAILED');
-    error.statusCode = 400;
-    throw error;
-  }
-
-  reviewInfo['roomReview'] = roomReview;
-
-  return reviewInfo;
-};
-
-module.exports = { getReview };
+module.exports = { readReview };

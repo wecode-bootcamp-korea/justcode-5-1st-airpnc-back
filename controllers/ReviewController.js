@@ -1,20 +1,16 @@
-const { reviewService } = require('../services');
+//const { reviewService } = require('../services');
 
-const getReview = async (req, res) => {
+const { isExistReview, readReview } = require('../services/ReviewService');
+
+const readReviews = async (req, res, next) => {
   try {
-    const { roomId } = req.query;
-
-    if (!roomId) {
-      const err = new Error('ROOM_ID_REQUIRED');
-      err.statusCode = 400;
-      throw err;
-    }
+    const id = req.params.id;
+    await isExistReview(id);
+    const reviews = await readReview(id);
+    return res.status(201).json({ data: postingDetail });
   } catch (err) {
-    console.log(err);
-    return res
-      .status(err.statusCode || 500)
-      .json(err.message || { message: 'GET_REVIEW_FAILED' });
+    next(err);
   }
 };
 
-module.exports = { getReview };
+module.exports = { readReviews };

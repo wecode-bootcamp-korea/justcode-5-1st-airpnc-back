@@ -4,6 +4,10 @@ const http = require('http');
 const express = require('express');
 const cors = require('cors');
 
+const { PrismaClient } = require('@prisma/client');
+
+const prisma = new PrismaClient();
+
 const homeRoutes = require('./routes/home');
 const detailRoutes = require('./routes/detail');
 const reservationRoutes = require('./routes/reservation');
@@ -11,6 +15,7 @@ const myPageRoutes = require('./routes/myPage');
 const wishListRoutes = require('./routes/wishList');
 const loginRoutes = require('./routes/login');
 const signupRoutes = require('./routes/signup');
+const reviewRoutes = require('./routes/review');
 
 const app = express();
 app.use(cors());
@@ -23,6 +28,7 @@ app.use(myPageRoutes);
 app.use(wishListRoutes);
 app.use(loginRoutes);
 app.use(signupRoutes);
+//app.use('/review', reviewRoutes);
 
 app.use((err, req, res, next) => {
   console.error(err);
@@ -30,14 +36,24 @@ app.use((err, req, res, next) => {
 });
 
 // 리뷰 불러오기 (2번 방에 대한 리뷰)
-app.get('/review/2', async (req, res) => {
+app.get('/review/:type', async (req, res) => {
+  //const id = req.query.id;
+  //console.log(id);
+  let { type } = req.params;
   // 1. 데이터를 가지고 온다. 2번 데이터만
   const reviews = await prisma.$queryRaw`
-    select users.name, users.created_at, review.review
-    FROM review
-    LEFT JOIN users ON review.user_id = users.id
-    where room_id=2;
-    `;
+  SELECT
+    users.name,
+    review.review,
+    review.score,
+    review.created_at
+  FROM review
+  JOIN 
+    users on review.user_id = users.id 
+  JOIN
+    room on review.room_id = room.id
+  WHERE
+    review.room_id = ${type}`;
   console.log('어디갔어', reviews);
 
   // 2. return response

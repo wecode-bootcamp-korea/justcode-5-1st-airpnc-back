@@ -5,8 +5,8 @@ async function getRooms() {
     SELECT * FROM room
   `;
 }
-async function getRoomsByInput(filterOptions) {
-  const filerList = filterOptions.filter(option => {
-    option.length > 0;
-  });
-}
+// async function getRoomsByInput(filterOptions) {
+//   const filerList = filterOptions.filter(option => {
+//     option.length > 0;
+//   });
+// }
