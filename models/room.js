@@ -77,6 +77,7 @@ async function readRoomsByFilter(filters) {
       users: {
         select: {
           name: true,
+          profile_image: true,
         },
       },
       photo: {
@@ -84,7 +85,6 @@ async function readRoomsByFilter(filters) {
           file_url: true,
         },
       },
-      wishlist: true,
     },
   });
   return room;
@@ -120,6 +120,27 @@ async function readRoomById(id) {
   return room;
 }
 
+queryRaw
+async function readRoomsByUserWishlist(userId) {
+  console.log('in model readRoomByUserWish');
+  const rooms = await prisma.$queryRaw`
+    SELECT room.id
+    FROM wishlist 
+    JOIN users ON users.id = wishlist.user_id
+    JOIN room ON room.id = wishlist.room_id
+    WHERE users.id=${userId}
+  `;
+  console.log(rooms);
+  return rooms;
+}
+
+// async function readRoomsByUserWishlist(userId) {
+//   console.log('in model readRoomByUserWish');
+//   console.log(rooms);
+//   return rooms;
+// }
+
+//////////////////////////////////////////////////////
 async function getRoomsByModel() {
   console.log('in getRoomsByModel');
   const rooms = await prisma.room.findMany();
@@ -189,6 +210,7 @@ module.exports = {
   readRoomsForHome,
   readRoomsByFilter,
   readRoomById,
+  readRoomsByUserWishlist,
   getRoomsByModel,
   getCities,
   getRoomByTest,

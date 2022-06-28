@@ -7,6 +7,7 @@ const {
   roomByFilterController,
   roomsForHomeController,
   readRoomByIdController,
+  readRoomByWish,
   // readRoomsController,
   // readRoomByIdController,
   // readRoomsByModelController,
@@ -26,5 +27,8 @@ router.get('/room/:id', asyncWrap(readRoomByIdController));
 
 // READ ROOMS by filter options
 router.get('/rooms/filtered', asyncWrap(roomByFilterController));
+
+// READ ROOMS by wish lists
+router.get('/rooms/:id/wished', asyncWrap(readRoomByWish));
 
 module.exports = router;

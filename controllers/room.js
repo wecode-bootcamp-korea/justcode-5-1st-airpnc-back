@@ -1,3 +1,5 @@
+const { readRoomsByUserWishlist } = require('../models/room');
+
 const {
   getRoomsForMain,
   getRoomsByFilter,
@@ -62,9 +64,15 @@ const readRoomByIdController = async (req, res) => {
     error.statusCode = 400;
     throw error;
   }
-  return res.status(200).json({ data: room });
+  return res.status(200).json(room);
 };
 
+const readRoomByWish = async (req, res) => {
+  const [userId] = req.params.id;
+  console.log('userId', userId);
+  const rooms = await readRoomsByUserWishlist(userId);
+  return res.status(200).json(rooms);
+};
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // const readRoomsController = async (req, res) => {
@@ -104,6 +112,7 @@ module.exports = {
   roomByFilterController,
   roomsForHomeController,
   readRoomByIdController,
+  readRoomByWish,
   // readRoomsController,
   // readRoomByIdController,
   // readRoomsByModelController,
