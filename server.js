@@ -33,13 +33,9 @@ app.use(myPageRoutes);
 app.use(wishListRoutes);
 app.use(loginRoutes);
 app.use(signupRoutes);
-app.delete('/review', reviewRoutes);
+app.use('/review', reviewRoutes);
 
-app.use((err, req, res, next) => {
-  console.error(err);
-  res.status(err.statusCode || 500).json({ message: err.message });
-});
-
+/*
 // 리뷰 삭제하기
 app.delete('/review/:id', async (req, res) => {
   //const id = req.query.id;
@@ -52,9 +48,11 @@ app.delete('/review/:id', async (req, res) => {
   return res.status(200).json({ data: reviews });
 });
 
-app.get('/ping', (req, res) => {
-  res.json({ message: 'pong' });
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(err.statusCode || 500).json({ message: err.message });
 });
+*/
 
 const server = http.createServer(app);
 const PORT = process.env.PORT || 10010;

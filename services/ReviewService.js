@@ -1,13 +1,8 @@
-const { createReview } = require('../models/ReviewDao');
+const { deleteReviewDao } = require('../models/ReviewDao');
 
-async function deleteReviewService(
-  review,
-  score,
-  user_id,
-  room_id,
-  reservation_id
-) {
-  await createReview(review, score, user_id, room_id, reservation_id);
+async function deleteReviewService(id) {
+  console.log('serveice id : ', id);
+  await deleteReviewDao(id);
 }
 
 module.exports = { deleteReviewService };

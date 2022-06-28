@@ -2,10 +2,9 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-function createReview(review, score, user_id, room_id, reservation_id) {
+function deleteReviewDao(id) {
   return prisma.$queryRaw`
-  Insert Into review(review, score, user_id, room_id, reservation_id) 
-  VALUES (${review}, ${score}, ${user_id}, ${room_id}, ${reservation_id})`;
+  DELETE FROM review WHERE id=${id}`;
 }
 
-module.exports = { createReview };
+module.exports = { deleteReviewDao };

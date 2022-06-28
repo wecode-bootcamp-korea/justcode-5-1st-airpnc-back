@@ -3,11 +3,9 @@ const { Router } = require('express');
 const router = Router();
 
 //const { createReview } = require('../controllers/ReviewController');
-const { deleteReview } = require('../controllers/ReviewController');
+const { deleteReviewController } = require('../controllers/ReviewController');
 
-//router.get('/', reviewController.getReview);
-//console.log('콘솔!!', createReview);
-//router.post('/', createReview);
-router.delete('/:id', deleteReview);
+//console.log('콘솔!!', deleteReviewController);
+router.delete('/:id', deleteReviewController);
 
 module.exports = router;
