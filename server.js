@@ -7,13 +7,13 @@ const cors = require('cors');
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-// const homeRoutes = require('./routes/home');
-// const detailRoutes = require('./routes/detail');
-// const reservationRoutes = require('./routes/reservation');
-// const myPageRoutes = require('./routes/myPage');
-// const wishListRoutes = require('./routes/wishList');
-// const loginRoutes = require('./routes/login');
-//const signupRoutes = require('./routes/signup');
+const homeRoutes = require('./routes/home');
+const detailRoutes = require('./routes/detail');
+const reservationRoutes = require('./routes/reservation');
+const myPageRoutes = require('./routes/myPage');
+const wishListRoutes = require('./routes/wishList');
+const loginRoutes = require('./routes/login');
+const signupRoutes = require('./routes/signup');
 const reviewRoutes = require('./routes/ReviewRouter');
 
 const app = express();
@@ -26,13 +26,13 @@ app.get('/ping', (req, res) => {
 });
 ///////////////////////////////
 
-//app.use(homeRoutes);
-//app.use(detailRoutes);
-//app.use(reservationRoutes);
-//app.use(myPageRoutes);
-//app.use(wishListRoutes);
-//app.use(loginRoutes);
-//app.use(signupRoutes);
+app.use(homeRoutes);
+app.use(detailRoutes);
+app.use(reservationRoutes);
+app.use(myPageRoutes);
+app.use(wishListRoutes);
+app.use(loginRoutes);
+app.use(signupRoutes);
 app.use('/review', reviewRoutes);
 
 /*
