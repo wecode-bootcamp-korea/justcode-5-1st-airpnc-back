@@ -32,11 +32,7 @@ app.use(myPageRoutes);
 app.use(wishListRoutes);
 app.use(loginRoutes);
 app.use(signupRoutes);
-
-app.use((err, req, res, next) => {
-  console.error(err);
-  res.status(err.statusCode || 500).json({ message: err.message });
-});
+app.use('/review', reviewRoutes);
 
 // 리뷰 수정하기
 app.put('/review/:id', async (req, res) => {
@@ -54,6 +50,11 @@ app.put('/review/:id', async (req, res) => {
     console.log(err);
     return res.status(500).json({ message: err.message });
   }
+});
+
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(err.statusCode || 500).json({ message: err.message });
 });
 
 const server = http.createServer(app);
