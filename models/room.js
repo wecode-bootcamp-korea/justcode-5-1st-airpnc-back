@@ -1,25 +1,128 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-async function getRooms() {
-  //  const rooms = await prisma.$queryRaw`
-  //    SELECT * FROM room
-  //  `;
-  //  console.log(`rooms : ${rooms}`);
+const isFilterValid = option => {
+  return option !== null ? option : undefined;
+};
+
+const addressCheck = () => {};
+
+async function readRoomsForHome() {
+  const rooms = await prisma.room.findMany({
+    include: {
+      users: {
+        select: {
+          name: true,
+        },
+      },
+      photo: {
+        select: {
+          file_url: true,
+        },
+      },
+    },
+  });
   return rooms;
 }
 
-async function getRoomById(id) {
-  // const room = await prisma.$queryRaw`
-  //   SELECT id FROM room WHERE id=${id}
+async function readRoomsByFilter(filters) {
+  const {
+    price,
+    country,
+    city,
+    guests,
+    beds,
+    bedrooms,
+    baths,
+    instant_book,
+    residential_type,
+    room_type,
+    location_type,
+  } = filters;
+  //console.log(`price : ${price}`);
+  const room = await prisma.room.findMany({
+    where: {
+      price: {
+        gt: isFilterValid(price)
+          ? price.min !== null
+            ? price.min
+            : undefined
+          : undefined,
+        lte: isFilterValid(price)
+          ? price.max !== null
+            ? price.max
+            : undefined
+          : undefined,
+      },
+      address: {
+        contains: isFilterValid(country),
+      },
+      guests: {
+        gte: isFilterValid(guests),
+      },
+      beds: {
+        gte: isFilterValid(beds),
+      },
+      bedrooms: {
+        gte: isFilterValid(bedrooms),
+      },
+      baths: {
+        gte: isFilterValid(baths),
+      },
+      residential_type: isFilterValid(residential_type),
+      room_type: isFilterValid(room_type),
+      location_type: isFilterValid(location_type),
+    },
+    include: {
+      users: {
+        select: {
+          name: true,
+        },
+      },
+      photo: {
+        select: {
+          file_url: true,
+        },
+      },
+      wishlist: true,
+    },
+  });
+  return room;
+}
+
+async function readRoomById(id) {
+  console.log('readRoomById : ', id);
+  console.log('id : ', id);
+  //const room = await prisma.$queryRaw`
+  // SELECT * FROM room
+  // JOIN users ON users.id = host_id
+  // WHERE room.id=${id}
   // `;
-  // return room;
+  const room = await prisma.room.findFirst({
+    where: {
+      id: {
+        equals: Number(id),
+      },
+    },
+    include: {
+      users: {
+        select: {
+          name: true,
+        },
+      },
+      photo: {
+        select: {
+          file_url: true,
+        },
+      },
+    },
+  });
+  return room;
 }
 
 async function getRoomsByModel() {
   console.log('in getRoomsByModel');
   const rooms = await prisma.room.findMany();
-
   console.log(`roombymodel ${rooms}`);
   return rooms;
 }
@@ -32,72 +135,61 @@ async function getCities() {
   return cities;
 }
 
-// async function getRoomsByItems(items) {
-//   const {
-//     price,
-//     address,
-//     guests,
-//     beds,
-//     bedrooms,
-//     baths,
-//     instant_book,
-//     residential_type,
-//     room_type,
-//     location_type,
-//   } = items;
-//   console.log(`requested : ${price}`);
-//   const room = await prisma.room.findMany({
-//     where: {
-//       price: {
-//         gt: {price},
-//         lte: {price},
-//       },
-//       address: {
+async function getRoomsByCity(city) {
+  console.log('in getRoomByCountries');
+  const rooms = await prisma.$queryRaw`
+    SELECT * FROM room
+    JOIN room_city ON room_city.room_id = room.id
+    JOIN city ON city.id = room_city.city_id
+    where city.name=${city}         
+  `;
+  return rooms;
+}
 
-//       },
-//       guests: {
-//         some: {
-//           gt: {bedroom},
-//         }
-//       },
-//       beds: {
-//         some: {
-//           gt: {bedroom},
-//         }
-//       },
-//       bedrooms: {
-//         some: {
-//           gt: {bedroom},
-//         }
-//       },
-//       baths: {
-//         some: {
-//           gt: {bedroom},
-//         }
-//       },
-//       instant_book: {
+async function getRoomByTest(items) {
+  console.log(`in getRoomByTest`);
+  console.log(`items : ${items}`);
+  const { price, baths, bedrooms, guests } = items;
+  console.log(`price : ${price}`);
+  // const rooms = await prisma.room.findMany({
+  //   where: {
+  //     price: {
+  //       gte: isFilterValid(price),
+  //     },
+  //     baths: {
+  //       gte: isFilterValid(baths),
+  //     },
+  //     bedrooms: {
+  //       gte: isFilterValid(bedrooms),
+  //     },
+  //     guests: {
+  //       gte: isFilterValid(guests),
+  //     },
+  //   },
+  // });
+  const rooms = await prisma.room.findMany({
+    include: {
+      users: {
+        select: {
+          name: true,
+        },
+      },
+      photo: {
+        select: {
+          file_url: true,
+        },
+      },
+    },
+  });
+  console.log(`getRoomsByFilter ${rooms}`);
+  return rooms;
+}
 
-//       },
-//       residential_type: {
-
-//       },
-//       room_type: {
-
-//       },
-//       location_type: {
-
-//       },
-//     }
-//   });
-//   console.log(`roombyid ${room}`);
-//   return room;
-// }
-
-//async function getlocationType() {}
-// async function getRoomsByInput(filterOptions) {
-//   const filerList = filterOptions.filter(option => {
-//     option.length > 0;
-//   });
-// }
-
-module.exports = { getRooms, getRoomById, getRoomsByModel, getCities };
+module.exports = {
+  readRoomsForHome,
+  readRoomsByFilter,
+  readRoomById,
+  getRoomsByModel,
+  getCities,
+  getRoomByTest,
+};
