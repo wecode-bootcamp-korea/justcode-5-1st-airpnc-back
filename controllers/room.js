@@ -9,13 +9,15 @@ const {
 } = require('../services/room');
 
 const errMsg = {
-  invalidId: 'ID_NOT_EXIST',
+  invalidRoom: 'ROOM_NOT_VALID',
 };
 
+// < TO DO >
+// middleWare handling
+// refactoring error handling
+
 const roomForHomeControllerDefault = async (req, res) => {
-  console.log(`in roomForHomeController`);
   const rooms = await getRoomsForMain();
-  console.log('in controller ', rooms);
   if (!rooms) {
     const error = new Error(errMsg.invalidId);
     error.statusCode = 400;
@@ -26,7 +28,6 @@ const roomForHomeControllerDefault = async (req, res) => {
 
 const roomByFilterController = async (req, res) => {
   const filters = req.body;
-  console.log('filters ', filters);
   const rooms = await getRoomsByFilter(filters);
   if (!rooms) {
     const error = new Error(errMsg.invalidRoom);
@@ -38,17 +39,7 @@ const roomByFilterController = async (req, res) => {
 
 const roomsForHomeController = async (req, res) => {
   const filters = req.body;
-  console.log('filters : ', filters);
-  // if (Object.keys(filters).length === 0) {
-  //   console.log('calling getRoomsForMain');
-  // } else {
-  //   console.log('calling getRoomsByFilter');
-  // }
-  // const rooms =
-  //   Object.keys(filters).length === 0
-  //     ? await getRoomsForMain()
-  //     : await getRoomsByFilter(filters);
-  const rooms = getRoomsForAllUsers(filters);
+  const rooms = await getRoomsForAllUsers(filters);
   if (!rooms) {
     const error = new Error(errMsg.invalidRoom);
     error.statusCode = 400;
@@ -56,11 +47,21 @@ const roomsForHomeController = async (req, res) => {
   return res.status(200).json(rooms);
 };
 
+const homeForLoggedUsersController = async (req, res) => {
+  const [userId] = req.params.id;
+  const filters = req.body;
+  const rooms = await getRoomsForLoggedUser(userId, filters);
+  if (!rooms) {
+    const error = new Error(errMsg.invalidId);
+    error.statusCode = 400;
+    throw error;
+  }
+  return res.status(200).json(rooms);
+};
+
 const readRoomByIdController = async (req, res) => {
   const [id] = req.params.id;
   const room = await getRoomById(id);
-  console.log(id);
-  console.log(room);
   if (!room) {
     const error = new Error(errMsg.invalidId);
     error.statusCode = 400;
@@ -69,15 +70,6 @@ const readRoomByIdController = async (req, res) => {
   return res.status(200).json(room);
 };
 
-const readRoomByWish = async (req, res) => {
-  const [userId] = req.params.id;
-  const filters = req.body;
-  console.log('userId', userId);
-  console.log('filters : ', filters);
-  const rooms = await getRoomsForLoggedUser(userId, filters);
-  console.log('controller: ', rooms);
-  return res.status(200).json(rooms);
-};
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // const readRoomsController = async (req, res) => {
@@ -117,7 +109,7 @@ module.exports = {
   roomByFilterController,
   roomsForHomeController,
   readRoomByIdController,
-  readRoomByWish,
+  homeForLoggedUsersController,
   // readRoomsController,
   // readRoomByIdController,
   // readRoomsByModelController,

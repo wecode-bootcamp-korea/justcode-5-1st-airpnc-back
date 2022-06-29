@@ -13,6 +13,7 @@ async function readRoomsForHome() {
       users: {
         select: {
           name: true,
+          profile_image: true,
         },
       },
       photo: {
@@ -108,6 +109,7 @@ async function readRoomById(id) {
       users: {
         select: {
           name: true,
+          profile_image: true,
         },
       },
       photo: {
