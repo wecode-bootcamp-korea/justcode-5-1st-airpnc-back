@@ -33,7 +33,7 @@ app.use(myPageRoutes);
 app.use(wishListRoutes);
 app.use(loginRoutes);
 app.use(signupRoutes);
-app.use(reviewRoutes);
+app.use('/review', reviewRoutes);
 
 /*
 // 리뷰 삭제하기
