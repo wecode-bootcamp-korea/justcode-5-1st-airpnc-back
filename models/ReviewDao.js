@@ -23,6 +23,7 @@ async function readDetail(id) {
   const selectReview = await prisma.$queryRaw`
   SELECT
       users.name,
+      users.profile_image,
       review.review,
       review.score,
       review.created_at
