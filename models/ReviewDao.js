@@ -49,11 +49,6 @@ async function readMyReviewsDao(id) {
   return selectedMyReview;
 }
 
-function updateReviewDao(review, score, id) {
-  return prisma.$queryRaw`
-  update review set review=${review}, score=${score} where id=${id}`;
-}
-
 async function isValidReview(id) {
   return await prisma.$queryRaw`
 	SELECT id FROM review WHERE id = ${id}
@@ -65,11 +60,16 @@ async function deleteReviewDao(id) {
   DELETE FROM review WHERE id=${id}`;
 }
 
+function updateReviewDao(review, score, id) {
+  return prisma.$queryRaw`
+  update review set review=${review}, score=${score} where id=${id}`;
+}
+
 module.exports = {
-  deleteReviewDao,
-  isValidReview,
   createReview,
   readReviewsDao,
   readMyReviewsDao,
+  deleteReviewDao,
+  isValidReview,
   updateReviewDao,
 };

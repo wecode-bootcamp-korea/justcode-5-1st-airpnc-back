@@ -2,9 +2,9 @@ const {
   createReview,
   readReviewsDao,
   readMyReviewsDao,
-  updateReviewDao,
   deleteReviewDao,
   isValidReview,
+  updateReviewDao,
 } = require('../models/ReviewDao');
 
 async function writeReview(review, score, user_id, room_id, reservation_id) {
@@ -19,10 +19,6 @@ async function readReviewService(id) {
 async function readMyReviewService(id) {
   const myReviews = await readMyReviewsDao(id);
   return myReviews;
-}
-
-async function updateReviewService(review, score, id) {
-  await updateReviewDao(review, score, id);
 }
 
 // checkReviewExist can be moved into middleware dir
@@ -40,10 +36,14 @@ async function deleteReviewService(id) {
   await deleteReviewDao(id);
 }
 
+async function updateReviewService(review, score, id) {
+  await updateReviewDao(review, score, id);
+}
+
 module.exports = {
   writeReview,
-  deleteReviewService,
   readReviewService,
-  updateReviewService,
   readMyReviewService,
+  deleteReviewService,
+  updateReviewService,
 };
