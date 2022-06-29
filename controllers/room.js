@@ -15,14 +15,14 @@ const roomsForHomeController = async (req, res) => {
 };
 
 const homeForLoggedUsersController = async (req, res) => {
-  const [userId] = req.params.id;
+  const userId = req.params.id;
   const filters = req.body;
   const rooms = await getRoomsForLoggedUser(userId, filters);
   return res.status(200).json(rooms);
 };
 
 const readRoomByIdController = async (req, res) => {
-  const [roomId] = req.params.id;
+  const roomId = req.params.id;
   const room = await getRoomById(roomId);
   return res.status(200).json(room);
 };

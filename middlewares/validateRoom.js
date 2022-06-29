@@ -1,3 +1,5 @@
+const { readRoomById } = require('../models/room');
+
 const errMsg = {
   roomNotExist: 'ROOM_NOT_EXIST',
   noRoomFound: 'NO_ROOM_FOUND',
