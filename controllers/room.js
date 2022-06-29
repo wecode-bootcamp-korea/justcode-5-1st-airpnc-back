@@ -1,8 +1,10 @@
-const { readRoomsByUserWishlist } = require('../models/room');
+const { readRoomsIdForUserWished } = require('../models/room');
 
 const {
   getRoomsForMain,
   getRoomsByFilter,
+  getRoomsForAllUsers,
+  getRoomsForLoggedUser,
   getRoomById,
 } = require('../services/room');
 
@@ -37,16 +39,16 @@ const roomByFilterController = async (req, res) => {
 const roomsForHomeController = async (req, res) => {
   const filters = req.body;
   console.log('filters : ', filters);
-  if (Object.keys(filters).length === 0) {
-    console.log('calling getRoomsForMain');
-  } else {
-    console.log('calling getRoomsByFilter');
-  }
-  const rooms =
-    Object.keys(filters).length === 0
-      ? await getRoomsForMain()
-      : await getRoomsByFilter(filters);
-
+  // if (Object.keys(filters).length === 0) {
+  //   console.log('calling getRoomsForMain');
+  // } else {
+  //   console.log('calling getRoomsByFilter');
+  // }
+  // const rooms =
+  //   Object.keys(filters).length === 0
+  //     ? await getRoomsForMain()
+  //     : await getRoomsByFilter(filters);
+  const rooms = getRoomsForAllUsers(filters);
   if (!rooms) {
     const error = new Error(errMsg.invalidRoom);
     error.statusCode = 400;
@@ -69,8 +71,11 @@ const readRoomByIdController = async (req, res) => {
 
 const readRoomByWish = async (req, res) => {
   const [userId] = req.params.id;
+  const filters = req.body;
   console.log('userId', userId);
-  const rooms = await readRoomsByUserWishlist(userId);
+  console.log('filters : ', filters);
+  const rooms = await getRoomsForLoggedUser(userId, filters);
+  console.log('controller: ', rooms);
   return res.status(200).json(rooms);
 };
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////

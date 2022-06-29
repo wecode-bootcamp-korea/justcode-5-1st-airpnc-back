@@ -120,8 +120,7 @@ async function readRoomById(id) {
   return room;
 }
 
-queryRaw
-async function readRoomsByUserWishlist(userId) {
+async function readRoomsIdForUserWished(userId) {
   console.log('in model readRoomByUserWish');
   const rooms = await prisma.$queryRaw`
     SELECT room.id
@@ -130,7 +129,7 @@ async function readRoomsByUserWishlist(userId) {
     JOIN room ON room.id = wishlist.room_id
     WHERE users.id=${userId}
   `;
-  console.log(rooms);
+  console.log('room : ', rooms);
   return rooms;
 }
 
@@ -210,7 +209,7 @@ module.exports = {
   readRoomsForHome,
   readRoomsByFilter,
   readRoomById,
-  readRoomsByUserWishlist,
+  readRoomsIdForUserWished,
   getRoomsByModel,
   getCities,
   getRoomByTest,
