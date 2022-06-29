@@ -8,17 +8,6 @@ const {
   getRoomById,
 } = require('../services/room');
 
-const roomForHomeControllerDefault = async (req, res) => {
-  const rooms = await getRoomsForMain();
-  return res.status(200).json(rooms);
-};
-
-const roomByFilterController = async (req, res) => {
-  const filters = req.body;
-  const rooms = await getRoomsByFilter(filters);
-  return res.status(200).json(rooms);
-};
-
 const roomsForHomeController = async (req, res) => {
   const filters = req.body;
   const rooms = await getRoomsForAllUsers(filters);
@@ -38,8 +27,20 @@ const readRoomByIdController = async (req, res) => {
   return res.status(200).json(room);
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////// NOT IN USE ////////////////////////////////////////////////////////////
 
+const roomForHomeControllerDefault = async (req, res) => {
+  const rooms = await getRoomsForMain();
+  return res.status(200).json(rooms);
+};
+
+const roomByFilterController = async (req, res) => {
+  const filters = req.body;
+  const rooms = await getRoomsByFilter(filters);
+  return res.status(200).json(rooms);
+};
+
+//////////////////// TEST CODE /////////////////////////
 const readRoomTestController = async (req, res) => {
   const items = req.body;
   const rooms = await readRoomsTest(items);
@@ -47,38 +48,13 @@ const readRoomTestController = async (req, res) => {
   return res.status(200).json(rooms);
 };
 
-// const readRoomsByModelController = async (req, res) => {
-//   console.log(`hi2`);
-//   const rooms = await getRoomsByModel();
-//   console.log(`in read Room: ${rooms}`);
-//   if (!rooms) {
-//     const error = new Error(errMsg.invalidId);
-//     error.statusCode = 400;
-//     throw error;
-//   }
-//   return res.status(200).json({ data: rooms });
-// };
-
-// const schemaModelTestController = async (req, res) => {
-//   console.log(`model test`);
-//   const filter = req.body;
-//   const results = await getRoomByTest(filter);
-//   console.log(`in read Room: ${results}`);
-//   if (!results) {
-//     const error = new Error(errMsg.invalidId);
-//     error.statusCode = 400;
-//     throw error;
-//   }
-//   return res.status(200).json(results);
-// };
-// const getType = async (req, res) => {};
-
 module.exports = {
-  roomForHomeControllerDefault,
-  roomByFilterController,
   roomsForHomeController,
-  readRoomByIdController,
   homeForLoggedUsersController,
+  readRoomByIdController,
+  ////////////////////////
+  roomByFilterController,
+  roomForHomeControllerDefault,
   // readRoomsController,
   // readRoomByIdController,
   // readRoomsByModelController,

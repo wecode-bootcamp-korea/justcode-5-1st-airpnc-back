@@ -5,6 +5,7 @@ const isFilterValid = option => {
   return option !== null ? option : undefined;
 };
 
+// TO DO : if address contains either city or country
 const addressCheck = () => {};
 
 async function readRoomsForHome() {
@@ -116,13 +117,6 @@ async function readRoomsByFilter(filters) {
 }
 
 async function readRoomById(id) {
-  console.log('readRoomById : ', id);
-  console.log('id : ', id);
-  //const room = await prisma.$queryRaw`
-  // SELECT * FROM room
-  // JOIN users ON users.id = host_id
-  // WHERE room.id=${id}
-  // `;
   const room = await prisma.room.findFirst({
     where: {
       id: {
@@ -167,7 +161,6 @@ async function readRoomsIdForUserWished(userId) {
     JOIN room ON room.id = wishlist.room_id
     WHERE users.id=${userId}
   `;
-  console.log('room : ', rooms);
   return rooms;
 }
 
@@ -238,30 +231,6 @@ async function readRoomsTest(filters) {
       },
     },
   });
-  // const rooms = await prisma.room.findMany({
-  //   include: {
-  //     users: {
-  //       select: {
-  //         name: true,
-  //       },
-  //     },
-  //     photo: {
-  //       select: {
-  //         file_url: true,
-  //       },
-  //     },
-  //     roomType: {
-  //       select: {
-  //         name: true,
-  //       },
-  //     },
-  //     locationType: {
-  //       select: {
-  //         name: true,
-  //       },
-  //     },
-  //   },
-  // });
   console.log(`readRoomByTest Room ${rooms}`);
   return rooms;
 }

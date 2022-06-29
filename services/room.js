@@ -61,8 +61,7 @@ async function getRoomById(roomId) {
   return await readRoomById(roomId);
 }
 
-////////////////////test code ///////////////////////////////////
-
+//////////////////// TEST CODE ///////////////////////////////////
 async function testRooms(filters) {
   return await readRoomsTest(filters);
 }
