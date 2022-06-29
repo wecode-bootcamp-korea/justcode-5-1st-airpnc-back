@@ -15,6 +15,7 @@ async function readRoomsForHome() {
           id: true,
           name: true,
           profile_image: true,
+          created_at: true,
         },
       },
       photo: {
@@ -91,6 +92,7 @@ async function readRoomsByFilter(filters) {
           id: true,
           name: true,
           profile_image: true,
+          created_at: true,
         },
       },
       photo: {
@@ -133,6 +135,7 @@ async function readRoomById(id) {
           id: true,
           name: true,
           profile_image: true,
+          created_at: true,
         },
       },
       photo: {
@@ -174,7 +177,7 @@ async function readRoomsIdForUserWished(userId) {
 //   return rooms;
 // }
 
-//////////////////////////////////////////////////////
+////////////////////////// TEST CODE ////////////////////////////
 async function getRoomsByModel() {
   console.log('in getRoomsByModel');
   const rooms = await prisma.room.findMany();
@@ -249,6 +252,8 @@ async function getRoomByTest(items) {
   console.log(`getRoomsByFilter ${rooms}`);
   return rooms;
 }
+
+/////////////////////////////////////////////////////
 
 module.exports = {
   readRoomsForHome,
