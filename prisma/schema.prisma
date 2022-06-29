@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,8 +7,144 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+model city {
+  id        Int         @id @default(autoincrement())
+  country   String?     @db.VarChar(50)
+  name      String      @db.VarChar(50)
+  room_city room_city[] @ignore
 }
+
+model locationType {
+  id   Int     @id @default(autoincrement())
+  name String? @db.VarChar(300)
+  room room[]
+}
+
+model photo {
+  id       Int     @id @default(autoincrement())
+  caption  String? @db.VarChar(3000)
+  file_url String  @db.VarChar(3000)
+  room_id  Int
+  room     room    @relation(fields: [room_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "photo_ibfk_1")
+
+  @@index([room_id], map: "room_id")
+}
+
+model reservation {
+  id             Int       @id @default(autoincrement())
+  reservation_no String?   @db.VarChar(50)
+  check_in       DateTime  @db.Date
+  check_out      DateTime  @db.Date
+  guests         Int?
+  user_id        Int?
+  room_id        Int?
+  created_at     DateTime? @default(now()) @db.DateTime(0)
+  updated_at     DateTime? @db.DateTime(0)
+  room           room?     @relation(fields: [room_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "reservation_ibfk_1")
+  users          users?    @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "reservation_ibfk_2")
+  review         review[]
+
+  @@index([room_id], map: "room_id")
+  @@index([user_id], map: "user_id")
+}
+
+model residentialType {
+  id   Int     @id @default(autoincrement())
+  name String? @db.VarChar(300)
+  room room[]
+}
+
+model review {
+  id             Int         @id @default(autoincrement())
+  review         String      @db.Text
+  score          Float?      @db.Float
+  user_id        Int
+  room_id        Int
+  reservation_id Int
+  created_at     DateTime?   @default(now()) @db.DateTime(0)
+  updated_at     DateTime?   @db.DateTime(0)
+  reservation    reservation @relation(fields: [reservation_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "review_ibfk_3")
+  room           room        @relation(fields: [room_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "review_ibfk_2")
+  users          users       @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "review_ibfk_1")
+
+  @@index([reservation_id], map: "reservation_id")
+  @@index([room_id], map: "room_id")
+  @@index([user_id], map: "user_id")
+}
+
+model room {
+  id               Int              @id @default(autoincrement())
+  name             String?          @db.VarChar(500)
+  description      String?          @db.Text
+  price            Float?           @db.Float
+  address          String?          @db.VarChar(500)
+  guests           Int?
+  beds             Int?
+  bedrooms         Int?
+  baths            Float?           @db.Float
+  instant_book     Boolean?
+  host_id          Int?
+  residential_type Int?
+  room_type        Int?
+  location_type    Int?
+  users            users?           @relation(fields: [host_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "room_ibfk_1")
+  locationType     locationType?    @relation(fields: [location_type], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "room_ibfk_4")
+  residentialType  residentialType? @relation(fields: [residential_type], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "room_ibfk_3")
+  roomType         roomType?        @relation(fields: [room_type], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "room_ibfk_2")
+  photo            photo[]
+  reservation      reservation[]
+  review           review[]
+  room_city        room_city[]      @ignore
+  wishlist         wishlist[]       @ignore
+
+  @@index([host_id], map: "host_id")
+  @@index([location_type], map: "location_type")
+  @@index([residential_type], map: "residential_type")
+  @@index([room_type], map: "room_type")
+}
+
+model roomType {
+  id   Int     @id @default(autoincrement())
+  name String? @db.VarChar(300)
+  room room[]
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model room_city {
+  city_id Int
+  room_id Int
+  city    city @relation(fields: [city_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "room_city_ibfk_1")
+  room    room @relation(fields: [room_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "room_city_ibfk_2")
+
+  @@index([city_id], map: "city_id")
+  @@index([room_id], map: "room_id")
+  @@ignore
+}
+
+model users {
+  id            Int           @id @default(autoincrement())
+  email         String        @unique(map: "email") @db.VarChar(100)
+  phone_number  String?       @unique(map: "phone_number") @db.VarChar(100)
+  name          String?       @db.VarChar(50)
+  password      String        @db.VarChar(300)
+  profile_image String?       @db.VarChar(3000)
+  created_at    DateTime?     @default(now()) @db.DateTime(0)
+  updated_at    DateTime?     @db.DateTime(0)
+  reservation   reservation[]
+  review        review[]
+  room          room[]
+  wishlist      wishlist[]    @ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model wishlist {
+  user_id Int
+  room_id Int
+  room    room  @relation(fields: [room_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "wishlist_ibfk_2")
+  users   users @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "wishlist_ibfk_1")
+
+  @@index([room_id], map: "room_id")
+  @@index([user_id], map: "user_id")
+  @@ignore
+}
+
