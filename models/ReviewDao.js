@@ -54,7 +54,20 @@ function updateReviewDao(review, score, id) {
   update review set review=${review}, score=${score} where id=${id}`;
 }
 
+async function isValidReview(id) {
+  return await prisma.$queryRaw`
+	SELECT id FROM review WHERE id = ${id}
+`;
+}
+
+async function deleteReviewDao(id) {
+  await prisma.$queryRaw`
+  DELETE FROM review WHERE id=${id}`;
+}
+
 module.exports = {
+  deleteReviewDao,
+  isValidReview,
   createReview,
   readReviewsDao,
   readMyReviewsDao,

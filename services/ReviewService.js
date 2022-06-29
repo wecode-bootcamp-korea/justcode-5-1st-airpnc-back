@@ -1,11 +1,15 @@
-const { createReview } = require('../models/ReviewDao');
+const {
+  createReview,
+  readReviewsDao,
+  readMyReviewsDao,
+  updateReviewDao,
+  deleteReviewDao,
+  isValidReview,
+} = require('../models/ReviewDao');
 
 async function writeReview(review, score, user_id, room_id, reservation_id) {
   await createReview(review, score, user_id, room_id, reservation_id);
 }
-
-module.exports = { writeReview };
-const { readReviewsDao, readMyReviewsDao } = require('../models/ReviewDao');
 
 async function readReviewService(id) {
   const reviews = await readReviewsDao(id);
@@ -17,11 +21,29 @@ async function readMyReviewService(id) {
   return myReviews;
 }
 
-module.exports = { readReviewService, readMyReviewService };
-const { updateReviewDao } = require('../models/ReviewDao');
-
 async function updateReviewService(review, score, id) {
   await updateReviewDao(review, score, id);
 }
 
-module.exports = { updateReviewService };
+// checkReviewExist can be moved into middleware dir
+async function checkReviewExist(id) {
+  const isExist = await isValidReview(id);
+  if (isExist.length === 0) {
+    const error = new Error('DELETING FAILED');
+    error.statusCode = 400;
+    throw error;
+  }
+}
+
+async function deleteReviewService(id) {
+  await checkReviewExist(id);
+  await deleteReviewDao(id);
+}
+
+module.exports = {
+  writeReview,
+  deleteReviewService,
+  readReviewService,
+  updateReviewService,
+  readMyReviewService,
+};

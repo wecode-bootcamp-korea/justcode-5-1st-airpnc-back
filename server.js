@@ -40,11 +40,6 @@ app.use(loginRoutes);
 app.use(signupRoutes);
 app.use('/review', reviewRoutes);
 
-app.use((err, req, res, next) => {
-  console.error(err);
-  res.status(err.statusCode || 500).json({ message: err.message });
-});
-
 const server = http.createServer(app);
 const PORT = process.env.PORT || 10010;
 

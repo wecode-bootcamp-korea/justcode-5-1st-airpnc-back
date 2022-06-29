@@ -48,9 +48,6 @@ const deleteReviewController = async (req, res) => {
   await deleteReviewService(id);
   return res.status(200).json({ message: 'DELETED' });
 };
-//const { reviewService } = require('../services');
-
-const { updateReviewService } = require('../services/ReviewService');
 
 const updateReviewController = async (req, res) => {
   try {
