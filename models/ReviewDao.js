@@ -19,7 +19,7 @@ function readDetail(id) {
     review.room_id = ${id}`;
 }*/
 
-async function readDetail(id) {
+async function readReviewsDao(id) {
   const selectReview = await prisma.$queryRaw`
   SELECT
       users.name,
@@ -37,4 +37,22 @@ async function readDetail(id) {
   return selectReview;
 }
 
-module.exports = { readDetail };
+async function readMyReviewsDao(id) {
+  const selectedMyReview = await prisma.$queryRaw`
+  SELECT
+      users.name,
+      review.score,
+      room.name,
+      review.review,
+      review.created_at
+    FROM review
+    JOIN 
+      users on review.user_id = users.id 
+	JOIN
+      room on review.room_id = room.id
+    WHERE
+      users.id = ${id}`;
+  return selectedMyReview;
+}
+
+module.exports = { readReviewsDao, readMyReviewsDao };
