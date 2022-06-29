@@ -27,7 +27,7 @@ app.get('/ping', (req, res) => {
 
 app.use(homeRoutes);
 app.use(detailRoutes);
-app.use(reservationRoutes);
+app.use('/reservation', reservationRoutes);
 app.use(myPageRoutes);
 app.use(wishListRoutes);
 app.use(loginRoutes);
@@ -43,7 +43,7 @@ const PORT = process.env.PORT || 10010;
 
 const start = async () => {
   try {
-    console.log("start trying here")
+    console.log('start trying here');
     server.listen(PORT, () => {
       console.log(`server start : http://localhost:${PORT}/`);
     });
