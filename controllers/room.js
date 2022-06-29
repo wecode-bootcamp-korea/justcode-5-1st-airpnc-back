@@ -1,4 +1,4 @@
-const { readRoomsIdForUserWished } = require('../models/room');
+const { readRoomsIdForUserWished, readRoomByTest } = require('../models/room');
 
 const {
   getRoomsForMain,
@@ -72,11 +72,12 @@ const readRoomByIdController = async (req, res) => {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// const readRoomsController = async (req, res) => {
-//   // const rooms = await getRooms();
-//   // console.log(`in readRoom : ${rooms}`);
-//   // return res.status(200).json({ data: rooms });
-// };
+const readRoomTestController = async (req, res) => {
+  const items = req.body;
+  const rooms = await readRoomByTest();
+  console.log(`in readRoom : ${rooms}`);
+  return res.status(200).json({ data: rooms });
+};
 
 // const readRoomsByModelController = async (req, res) => {
 //   console.log(`hi2`);
@@ -113,5 +114,5 @@ module.exports = {
   // readRoomsController,
   // readRoomByIdController,
   // readRoomsByModelController,
-  // schemaModelTestController,
+  readRoomTestController,
 };

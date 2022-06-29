@@ -204,52 +204,52 @@ async function getRoomsByCity(city) {
   return rooms;
 }
 
-async function getRoomByTest(items) {
-  //console.log(`in getRoomByTest`);
-  //console.log(`items : ${items}`);
-  const { price, baths, bedrooms, guests } = items;
+async function readRoomByTest(items) {
+  console.log(`in readRoomByTest`);
+  console.log(`items : ${items}`);
+  //const { price, baths, bedrooms, guests } = items;
   //console.log(`price : ${price}`);
-  // const rooms = await prisma.room.findMany({
-  //   where: {
-  //     price: {
-  //       gte: isFilterValid(price),
-  //     },
-  //     baths: {
-  //       gte: isFilterValid(baths),
-  //     },
-  //     bedrooms: {
-  //       gte: isFilterValid(bedrooms),
-  //     },
-  //     guests: {
-  //       gte: isFilterValid(guests),
-  //     },
-  //   },
-  // });
   const rooms = await prisma.room.findMany({
-    include: {
-      users: {
-        select: {
-          name: true,
-        },
+    where: {
+      price: {
+        gte: isFilterValid(price),
       },
-      photo: {
-        select: {
-          file_url: true,
-        },
+      baths: {
+        gte: isFilterValid(baths),
       },
-      roomType: {
-        select: {
-          name: true,
-        },
+      bedrooms: {
+        gte: isFilterValid(bedrooms),
       },
-      locationType: {
-        select: {
-          name: true,
-        },
+      guests: {
+        gte: isFilterValid(guests),
       },
     },
   });
-  console.log(`getRoomsByFilter ${rooms}`);
+  // const rooms = await prisma.room.findMany({
+  //   include: {
+  //     users: {
+  //       select: {
+  //         name: true,
+  //       },
+  //     },
+  //     photo: {
+  //       select: {
+  //         file_url: true,
+  //       },
+  //     },
+  //     roomType: {
+  //       select: {
+  //         name: true,
+  //       },
+  //     },
+  //     locationType: {
+  //       select: {
+  //         name: true,
+  //       },
+  //     },
+  //   },
+  // });
+  console.log(`readRoomByTest Room ${rooms}`);
   return rooms;
 }
 
@@ -262,5 +262,5 @@ module.exports = {
   readRoomsIdForUserWished,
   getRoomsByModel,
   getCities,
-  getRoomByTest,
+  readRoomByTest,
 };

@@ -10,8 +10,7 @@ const {
   homeForLoggedUsersController,
   // readRoomsController,
   // readRoomByIdController,
-  // readRoomsByModelController,
-  // schemaModelTestController,
+  readRoomTestController,
 } = require('../controllers/room');
 
 // READ ALL ROOMS : No Filter Applied
@@ -26,9 +25,9 @@ router.get('/home/:id', asyncWrap(homeForLoggedUsersController));
 // READ ROOM BY ID
 router.get('/room/:id', asyncWrap(readRoomByIdController));
 
-//router.get('/test', asyncWrap(schemaModelTestController));
-
 // READ ROOMS by filter options
 router.get('/rooms/filtered', asyncWrap(roomByFilterController));
 
+//test
+router.get('/test', asyncWrap(readRoomTestController));
 module.exports = router;

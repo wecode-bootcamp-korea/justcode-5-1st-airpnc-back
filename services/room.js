@@ -3,6 +3,7 @@ const {
   readRoomsByFilter,
   readRoomsIdForUserWished,
   readRoomById,
+  readRoomsTest,
 } = require('../models/room');
 
 async function checkUserHasWished(userId) {
@@ -62,4 +63,5 @@ module.exports = {
   getRoomsForAllUsers,
   getRoomsForLoggedUser,
   getRoomById,
+  testRooms,
 };
