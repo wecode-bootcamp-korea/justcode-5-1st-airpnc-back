@@ -68,7 +68,7 @@ async function readRoomsByFilter(filters) {
           : undefined,
       },
       address: {
-        contains: isFilterValid(country),
+        contains: isFilterValid(city),
       },
       guests: {
         gte: isFilterValid(guests),
