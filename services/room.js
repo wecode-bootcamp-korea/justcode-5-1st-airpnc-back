@@ -6,6 +6,11 @@ const {
   readRoomsTest,
 } = require('../models/room');
 
+const {
+  checkRoomExist,
+  checkValidRoomExist,
+} = require('../middlewares/validateRoom');
+
 async function checkUserHasWished(userId) {
   const roomIds = await readRoomsIdForUserWished(userId);
   return roomIds.length > 0 ? roomIds : false;
@@ -24,11 +29,15 @@ async function markWished(wishlist, rooms) {
 }
 
 async function getRoomsForMain() {
-  return await readRoomsForHome();
+  const rooms = await readRoomsForHome();
+  await checkValidRoomExist(rooms);
+  return rooms;
 }
 
 async function getRoomsByFilter(filters) {
-  return await readRoomsByFilter(filters);
+  const rooms = await readRoomsByFilter(filters);
+  await checkValidRoomExist(rooms);
+  return rooms;
 }
 
 async function getRoomsForAllUsers(filters) {
@@ -47,10 +56,12 @@ async function getRoomsForLoggedUser(userId, filters) {
   }
 }
 
-////////////////////test code ///////////////////////////////////
 async function getRoomById(roomId) {
-  return await readRoomById, await readRoomById(roomId);
+  await checkRoomExist(roomId);
+  return await readRoomById(roomId);
 }
+
+////////////////////test code ///////////////////////////////////
 
 async function testRooms(filters) {
   return await readRoomsTest(filters);

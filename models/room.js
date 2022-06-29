@@ -204,9 +204,22 @@ async function getRoomsByCity(city) {
   return rooms;
 }
 
-async function readRoomByTest(items) {
+async function readRoomsTest(filters) {
+  const {
+    price,
+    country,
+    city,
+    guests,
+    beds,
+    bedrooms,
+    baths,
+    instant_book,
+    residential_type,
+    room_type,
+    location_type,
+  } = filters;
   console.log(`in readRoomByTest`);
-  console.log(`items : ${items}`);
+  console.log(`filters : ${filters}`);
   //const { price, baths, bedrooms, guests } = items;
   //console.log(`price : ${price}`);
   const rooms = await prisma.room.findMany({
@@ -262,5 +275,5 @@ module.exports = {
   readRoomsIdForUserWished,
   getRoomsByModel,
   getCities,
-  readRoomByTest,
+  readRoomsTest,
 };
