@@ -147,3 +147,4 @@ model wishlist {
   @@index([user_id], map: "user_id")
   @@ignore
 }
+
