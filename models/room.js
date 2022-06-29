@@ -12,6 +12,7 @@ async function readRoomsForHome() {
     include: {
       users: {
         select: {
+          id: true,
           name: true,
           profile_image: true,
         },
@@ -19,6 +20,16 @@ async function readRoomsForHome() {
       photo: {
         select: {
           file_url: true,
+        },
+      },
+      roomType: {
+        select: {
+          name: true,
+        },
+      },
+      locationType: {
+        select: {
+          name: true,
         },
       },
     },
@@ -77,6 +88,7 @@ async function readRoomsByFilter(filters) {
     include: {
       users: {
         select: {
+          id: true,
           name: true,
           profile_image: true,
         },
@@ -84,6 +96,16 @@ async function readRoomsByFilter(filters) {
       photo: {
         select: {
           file_url: true,
+        },
+      },
+      roomType: {
+        select: {
+          name: true,
+        },
+      },
+      locationType: {
+        select: {
+          name: true,
         },
       },
     },
@@ -108,6 +130,7 @@ async function readRoomById(id) {
     include: {
       users: {
         select: {
+          id: true,
           name: true,
           profile_image: true,
         },
@@ -115,6 +138,16 @@ async function readRoomById(id) {
       photo: {
         select: {
           file_url: true,
+        },
+      },
+      roomType: {
+        select: {
+          name: true,
+        },
+      },
+      locationType: {
+        select: {
+          name: true,
         },
       },
     },
@@ -169,10 +202,10 @@ async function getRoomsByCity(city) {
 }
 
 async function getRoomByTest(items) {
-  console.log(`in getRoomByTest`);
-  console.log(`items : ${items}`);
+  //console.log(`in getRoomByTest`);
+  //console.log(`items : ${items}`);
   const { price, baths, bedrooms, guests } = items;
-  console.log(`price : ${price}`);
+  //console.log(`price : ${price}`);
   // const rooms = await prisma.room.findMany({
   //   where: {
   //     price: {
@@ -199,6 +232,16 @@ async function getRoomByTest(items) {
       photo: {
         select: {
           file_url: true,
+        },
+      },
+      roomType: {
+        select: {
+          name: true,
+        },
+      },
+      locationType: {
+        select: {
+          name: true,
         },
       },
     },
