@@ -18,3 +18,10 @@ async function readMyReviewService(id) {
 }
 
 module.exports = { readReviewService, readMyReviewService };
+const { updateReviewDao } = require('../models/ReviewDao');
+
+async function updateReviewService(review, score, id) {
+  await updateReviewDao(review, score, id);
+}
+
+module.exports = { updateReviewService };

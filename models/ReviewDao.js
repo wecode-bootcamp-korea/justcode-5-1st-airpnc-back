@@ -49,4 +49,14 @@ async function readMyReviewsDao(id) {
   return selectedMyReview;
 }
 
-module.exports = { createReview, readReviewsDao, readMyReviewsDao };
+function updateReviewDao(review, score, id) {
+  return prisma.$queryRaw`
+  update review set review=${review}, score=${score} where id=${id}`;
+}
+
+module.exports = {
+  createReview,
+  readReviewsDao,
+  readMyReviewsDao,
+  updateReviewDao,
+};
