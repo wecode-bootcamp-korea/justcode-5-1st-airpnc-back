@@ -1,24 +1,64 @@
-const { getRooms, getRoomById } = require('../models/room');
+const { readRoomsTest } = require('../models/room');
 
-const errMsg = {
-  invalidId: 'ID_NOT_EXIST',
+const {
+  getRoomsForMain,
+  getRoomsByFilter,
+  getRoomsForAllUsers,
+  getRoomsForLoggedUser,
+  getRoomById,
+} = require('../services/room');
+
+const roomsForHomeController = async (req, res) => {
+  const filters = req.body;
+  const rooms = await getRoomsForAllUsers(filters);
+  console.log('rooms : ', rooms);
+  return res.status(200).json(rooms);
 };
 
-const readRoomsController = async (req, res) => {
-  const rooms = await getRooms();
+const homeForLoggedUsersController = async (req, res) => {
+  const userId = req.params.id;
+  console.log('user Id: ', userId);
+  const filters = req.body;
+  const rooms = await getRoomsForLoggedUser(userId, filters);
+  return res.status(200).json(rooms);
 };
 
 const readRoomByIdController = async (req, res) => {
-  const [id] = req.params.id;
-  const room = await getRoomById(id);
-  console.log(id);
-  console.log(room);
-  if (!room) {
-    const error = new Error(errMsg.invalidId);
-    error.statusCode = 400;
-    throw error;
-  }
-  return res.status(200).json({ data: room });
+  const roomId = req.params.id;
+  const room = await getRoomById(roomId);
+  return res.status(200).json(room);
 };
 
-module.exports = { readRoomsController, readRoomByIdController };
+/////////// NOT IN USE ////////////////////////////////////////////////////////////
+
+const roomForHomeControllerDefault = async (req, res) => {
+  const rooms = await getRoomsForMain();
+  return res.status(200).json(rooms);
+};
+
+const roomByFilterController = async (req, res) => {
+  const filters = req.body;
+  const rooms = await getRoomsByFilter(filters);
+  return res.status(200).json(rooms);
+};
+
+//////////////////// TEST CODE /////////////////////////
+const readRoomTestController = async (req, res) => {
+  const items = req.body;
+  const rooms = await readRoomsTest(items);
+  console.log(`in readRoom : ${rooms}`);
+  return res.status(200).json(rooms);
+};
+
+module.exports = {
+  roomsForHomeController,
+  homeForLoggedUsersController,
+  readRoomByIdController,
+  ////////////////////////
+  roomByFilterController,
+  roomForHomeControllerDefault,
+  // readRoomsController,
+  // readRoomByIdController,
+  // readRoomsByModelController,
+  readRoomTestController,
+};
