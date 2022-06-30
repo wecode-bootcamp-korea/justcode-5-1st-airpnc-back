@@ -23,8 +23,8 @@ const deletwishList = async (req, res) => {
 
 const insertwishList = async (req, res, next) => {
   try {
-    const { userId, roomId } = req.body;
-
+    // const { userId, roomId } = req.body;
+    console.log(req.body);
     const wishList = await InsertWishList(userId, roomId);
 
     return res.status(500).json({ message: 'CREATED' });
