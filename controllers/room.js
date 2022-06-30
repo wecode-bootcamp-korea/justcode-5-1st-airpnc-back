@@ -22,6 +22,7 @@ const homeForLoggedUsersController = async (req, res) => {
 };
 
 const readRoomByIdController = async (req, res) => {
+  console.log('in readRoomById');
   const roomId = req.params.id;
   const room = await getRoomById(roomId);
   return res.status(200).json(room);
