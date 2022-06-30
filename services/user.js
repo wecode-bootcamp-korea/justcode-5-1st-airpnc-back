@@ -5,7 +5,8 @@ const { readUserByEmail, createUser } = require('../models/user');
 
 const salt = bcrypt.genSaltSync();
 
-async function signup(email, password) {
+async function signup(userinfo) {
+  const { email, password, name, phone_number } = userinfo;
   if (password.length < 7) {
     const error = new Error('비밀번호는 최소 7자 입니다');
     error.statusCode = 400;
@@ -24,9 +25,10 @@ async function signup(email, password) {
     email,
     password: bcrypt.hashSync(password, salt),
     name,
+    phone_number,
   };
 
-  await createUser(createUserDto);
+  return await createUser(createUserDto);
 }
 
 async function login(email, password) {
@@ -41,7 +43,7 @@ async function login(email, password) {
   }
 
   const users = await readUserByEmail(email);
-  console.log(users);
+  // console.log(users, 'users');
   if (bcrypt.compareSync(password, users.password)) {
     const token = jwt.sign({ id: users.id }, process.env.SECRET_KEY, {
       expiresIn: '1d',
