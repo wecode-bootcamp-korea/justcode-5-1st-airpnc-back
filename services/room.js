@@ -49,8 +49,6 @@ async function getRoomsForAllUsers(filters) {
 async function getRoomsForLoggedUser(userId, filters) {
   const wishlist = await checkUserHasWished(userId);
   const rooms = await getRoomsForAllUsers(filters);
-  console.log('wishlist : ', wishlist);
-  console.log('rooms : ', rooms);
   if (!wishlist) {
     return rooms;
   } else {
