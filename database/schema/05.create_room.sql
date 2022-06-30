@@ -11,6 +11,7 @@ CREATE TABLE room
   baths float,
   instant_book boolean,
   host_id int,
+  city_id int,
   residential_type int,
   room_type int,
   location_type int,
