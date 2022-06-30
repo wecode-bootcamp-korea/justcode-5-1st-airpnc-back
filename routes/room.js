@@ -17,12 +17,12 @@ const {
 } = require('../controllers/room');
 
 // READ ROOMS for All Users
-router.get('/home', asyncWrap(roomsForHomeController));
+//router.get('/home', asyncWrap(roomsForHomeController));
 // FOR FILTER:
 router.post('/home', asyncWrap(roomsForHomeController));
 
 // READ ROOMS For Logged User
-router.get('/home/:id', asyncWrap(homeForLoggedUsersController));
+//router.get('/home/:id', asyncWrap(homeForLoggedUsersController));
 // FOR FILTER
 router.post('/home/:id', asyncWrap(homeForLoggedUsersController));
 
