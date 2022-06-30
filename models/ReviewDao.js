@@ -28,24 +28,28 @@ async function readReviewsDao(id) {
 async function readMyReviewsDao(id) {
   const selectedMyReview = await prisma.$queryRaw`
   SELECT
-	  ANY_VALUE(users.id) AS userId,
-      ANY_VALUE(users.name) AS userName,
-      ANY_VALUE(review.score) AS reviewScore,
-      room.name,
-      room.id as room_id,
-      ANY_VALUE(review.review) AS review,
-      ANY_VALUE(review.created_at) AS created_at,
-      JSON_ARRAYAGG(CASE WHEN photo.file_url IS NOT NULL THEN JSON_OBJECT('url',photo.file_url) END) AS photo_url
+    users.id as user_id,
+    users.name,
+    review.score,
+    room.name,
+    room.id as room_id,
+    review.id as review_id,
+    review.review,
+    review.created_at,
+    city.country,
+    city.name as city
     FROM review
-    JOIN 
-      users on review.user_id = users.id 
-	JOIN
-      room on review.room_id = room.id
-	JOIN
-      photo on room.id = photo.room_id
-    WHERE
-      users.id = ${id}
-	GROUP BY room.id;`;
+  JOIN 
+    users on review.user_id = users.id 
+  JOIN
+    room on review.room_id = room.id
+  JOIN
+    room_city on room.id = room_city.room_id
+  JOIN 
+    city on room_city.city_id = city.id
+  WHERE
+    users.id = ${id}`;
+
   return selectedMyReview;
 }
 
