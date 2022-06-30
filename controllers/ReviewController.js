@@ -53,6 +53,7 @@ const updateReviewController = async (req, res) => {
   try {
     let { id } = req.params;
     const { review, score } = req.body;
+    console.log(review, score, 1415);
     await updateReviewService(review, score, id);
 
     return res.status(201).json({ message: 'UPDATED' });

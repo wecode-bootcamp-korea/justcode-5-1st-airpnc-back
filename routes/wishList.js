@@ -8,6 +8,6 @@ const {
 } = require('../controllers/wishlist');
 
 router.get('/wishlist/:id', wishList);
-router.delete('/wishlist/:id', deletwishList);
-router.post('/wishlist', insertwishList);
+router.delete('/wishlist/:id/:roomid', deletwishList);
+router.post('/wishlist/:id', insertwishList);
 module.exports = router;

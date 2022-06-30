@@ -2,7 +2,7 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 const isFilterValid = option => {
-  return option !== null ? option : undefined;
+  return option !== null && option !== 0 ? option : undefined;
 };
 
 // TO DO : if address contains either city or country
@@ -36,6 +36,7 @@ async function readRoomsForHome() {
       },
     },
   });
+  console.log(rooms, 'rooms');
   return rooms;
 }
 
@@ -53,7 +54,6 @@ async function readRoomsByFilter(filters) {
     room_type,
     location_type,
   } = filters;
-  //console.log(`price : ${price}`);
   const room = await prisma.room.findMany({
     where: {
       price: {
@@ -63,7 +63,7 @@ async function readRoomsByFilter(filters) {
             : undefined
           : undefined,
         lte: isFilterValid(price)
-          ? price.max !== null
+          ? price.max !== null && price.max !== 0
             ? price.max
             : undefined
           : undefined,
@@ -83,9 +83,27 @@ async function readRoomsByFilter(filters) {
       baths: {
         gte: isFilterValid(baths),
       },
-      residential_type: isFilterValid(residential_type),
-      room_type: isFilterValid(room_type),
-      location_type: isFilterValid(location_type),
+      room_type: {
+        equals: isFilterValid(room_type)
+          ? room_type !== 0
+            ? room_type
+            : undefined
+          : undefined,
+      },
+      residential_type: {
+        equals: isFilterValid(residential_type)
+          ? residential_type !== 0
+            ? residential_type
+            : undefined
+          : undefined,
+      },
+      location_type: {
+        equals: isFilterValid(location_type)
+          ? location_type !== 0
+            ? location_type
+            : undefined
+          : undefined,
+      },
     },
     include: {
       users: {
@@ -153,7 +171,6 @@ async function readRoomById(id) {
 }
 
 async function readRoomsIdForUserWished(userId) {
-  console.log('in model readRoomByUserWish');
   const rooms = await prisma.$queryRaw`
     SELECT room.id
     FROM wishlist 
@@ -172,22 +189,16 @@ async function readRoomsIdForUserWished(userId) {
 
 ////////////////////////// TEST CODE ////////////////////////////
 async function getRoomsByModel() {
-  console.log('in getRoomsByModel');
   const rooms = await prisma.room.findMany();
-  console.log(`roombymodel ${rooms}`);
   return rooms;
 }
 
 async function getCities() {
-  console.log('in getCities');
   const cities = await prisma.city.findMany();
-
-  console.log(`getCities ${cities}`);
   return cities;
 }
 
 async function getRoomsByCity(city) {
-  console.log('in getRoomByCountries');
   const rooms = await prisma.$queryRaw`
     SELECT * FROM room
     JOIN room_city ON room_city.room_id = room.id
