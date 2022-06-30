@@ -36,6 +36,7 @@ async function readRoomsForHome() {
       },
     },
   });
+  console.log(rooms, 'rooms');
   return rooms;
 }
 
