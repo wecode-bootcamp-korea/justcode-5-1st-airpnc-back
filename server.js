@@ -7,6 +7,8 @@ const cors = require('cors');
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
+// const routes = require('./routes');
+const homeRoutes = require('./routes/home');
 const routes = require('./routes');
 const userRouter = require('./routes/user');
 const homeRoutes = require('./routes/room');
@@ -26,7 +28,7 @@ app.use(express.json());
 app.use(userRouter);
 app.use(homeRoutes);
 app.use(detailRoutes);
-app.use(reservationRoutes);
+app.use('/reservation', reservationRoutes);
 app.use(myPageRoutes);
 app.use(wishListRoutes);
 app.use(loginRoutes);
