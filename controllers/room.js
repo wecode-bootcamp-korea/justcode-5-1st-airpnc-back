@@ -10,7 +10,10 @@ const {
 
 const roomsForHomeController = async (req, res) => {
   const filters = req.body;
+  console.log('backend get filters :', filters);
   const rooms = await getRoomsForAllUsers(filters);
+  console.log('roomsForHomeController:');
+  console.log('rooms: ', rooms);
   return res.status(200).json(rooms);
 };
 
@@ -18,6 +21,7 @@ const homeForLoggedUsersController = async (req, res) => {
   const userId = req.params.id;
   const filters = req.body;
   const rooms = await getRoomsForLoggedUser(userId, filters);
+  console.log('rooms: ', rooms);
   return res.status(200).json(rooms);
 };
 
