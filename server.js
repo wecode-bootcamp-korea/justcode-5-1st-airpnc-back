@@ -9,7 +9,7 @@ const prisma = new PrismaClient();
 
 // const routes = require('./routes');
 //const homeRoutes = require('./routes/home');
-//const homeRoutes = require('./routes/room');
+const homeRoutes = require('./routes/room');
 const routes = require('./routes');
 const userRouter = require('./routes/user');
 const detailRoutes = require('./routes/detail');
@@ -26,7 +26,7 @@ app.use(express.json());
 
 //app.use(routes);
 app.use(userRouter);
-//app.use(homeRoutes);
+app.use(homeRoutes);
 app.use(detailRoutes);
 app.use('/reservation', reservationRoutes);
 app.use(myPageRoutes);
