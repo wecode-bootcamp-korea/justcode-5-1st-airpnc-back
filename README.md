@@ -1,7 +1,5 @@
 # node-project
 
-# node-project
-
 ## 테이블 생성
 
 /database/schema 폴더의 01~11번 까지 sql 파일 순서대로 create

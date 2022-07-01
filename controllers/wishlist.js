@@ -1,33 +1,36 @@
 const {
-  getWishList,
+  getWishListByUserId,
   DeletWishList,
   InsertWishList,
 } = require('../models/wishlist');
 
 const wishList = async (req, res) => {
   console.log(`in controllers`);
-  const [id] = req.params.id;
-  const wishList = await getWishList(id);
+  const userid = req.params.id;
+  const wishList = await getWishListByUserId(userid);
   console.log(`before return ${wishList}`);
 
   return res.status(200).json({ data: wishList });
 };
 
 const deletwishList = async (req, res) => {
-  const [id] = req.params.id;
+  console.log(req.params);
+  const { id, roomid } = req.params;
+  // const id = req.params.id
+  // const roomid = req.params.roomid
 
-  const wishList = await DeletWishList(1, id);
+  const wishList = await DeletWishList(id, roomid);
 
-  return res.status(204).json({ 메시지: '삭제성공' });
+  return res.status(200).json({ message: 'DELET SES' });
 };
 
 const insertwishList = async (req, res, next) => {
   try {
-    const { userId, roomId } = req.body;
+    const { user_id, room_id } = req.body;
+    console.log(req.body);
+    const wishList = await InsertWishList(user_id, room_id);
 
-    const wishList = await InsertWishList(userId, roomId);
-
-    return res.status(500).json({ message: 'CREATED' });
+    return res.status(200).json({ message: 'CREATED' });
   } catch (err) {
     next(err);
   }

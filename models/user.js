@@ -15,9 +15,9 @@ async function readUserByEmail(email) {
 SELECT
 id,
 email,
-password,
 name,
-phone_number
+phone_number,
+password
 
 FROM users
 WHERE email = ${email}

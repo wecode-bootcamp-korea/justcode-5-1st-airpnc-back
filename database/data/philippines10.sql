@@ -1,0 +1,3 @@
+Insert Into room(name, description, price, address, guests, beds, bedrooms, baths, instant_book, host_id, residential_type, room_type, location_type) 
+  VALUES ('Ojo Dorado (The Pavilion Room)', '카모테스 바다의 멋진 전망을 감상할 수 있는 오조 도라도 파빌리온 룸은 휴식을 취하고 휴식을 취하며 활기를 되찾을 수 있는 이상적인 장소입니다. 세부 시에서 차로 2시간 거리에 있어 드라이브 가치가 있다고 말해야 합니다. 숙소의 아름다운 전망에서 휴식을 취하고 해안과 충돌할 때 부드러운 파도의 소리를 들어보세요. 아니면 바다가 내려다보이는 인피니티 풀에서 휴식을 취하세요.',
+  89244,'Tabogon, Central Visayas, Philippines', 4, 3, 1, 1, false, 5, 3, 1,2);

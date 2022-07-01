@@ -1,7 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-async function getWishList(id) {
+async function getWishListByUserId(userid) {
   console.log('getWishList');
   const dbWishList = await prisma.$queryRaw`
 
@@ -17,6 +17,8 @@ async function getWishList(id) {
   LEFT JOIN wishlist on wishlist.room_id = room.id
   JOIN users on users.id = wishlist.user_id
 
+  WHERE user_id = ${userid}
+
   `;
   // console.log('test: ', dbWishList);
   // return res.status(200).json({ message: 'CREATED' });
@@ -25,20 +27,22 @@ async function getWishList(id) {
 // export default getUsers;
 
 async function DeletWishList(id, room_id) {
-  console.log('getWishList');
+  // console.log('getWishList', DeletWishList);
   const dbWishList = await prisma.$queryRaw`
   DELETE FROM wishlist WHERE user_id = ${id} and room_id = ${room_id}
+ 
   
   `;
-  console.log('test: ', dbWishList);
+  //  DELETE FROM wishlist WHERE user_id = ${id} and ${room_id}
+  console.log('Delet: ', dbWishList);
   // return res.status(200).json({ message: 'CREATED' });
   return dbWishList;
 }
 
 async function InsertWishList(id, room_id) {
-  console.log('getWishList');
+  console.log('getWishList', id, room_id);
   const dbWishList = await prisma.$queryRaw`
-  INSERT INTO wishlist(user_id,room_id) values( ${id},${room_id})
+  INSERT INTO wishlist(user_id,room_id) values(${id},${room_id})
   
   `;
   console.log('test: ', dbWishList);
@@ -46,4 +50,4 @@ async function InsertWishList(id, room_id) {
   return dbWishList;
 }
 
-module.exports = { getWishList, DeletWishList, InsertWishList };
+module.exports = { getWishListByUserId, DeletWishList, InsertWishList };
