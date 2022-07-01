@@ -26,7 +26,7 @@ async function getToReviewList(user_id) {
   JOIN room_city ON reservation.room_id = room_city.room_id 
  JOIN city ON room_city.city_id=city.id
  LEFT JOIN review ON reservation.id = review.reservation_id 
- WHERE reservation.user_id = ${user_id} AND review.review is null`;
+ WHERE reservation.user_id = ${user_id} AND reservation.check_in <= now() AND review.review is null`;
   return ToReviewList;
 }
 // async function getToReviewList(user_id) {
