@@ -19,6 +19,7 @@ async function loginController(req, res) {
     const token = await login(email, password);
     return res.status(201).json({ token, success: true, message: 'SUCCESS' });
   } catch (err) {
+    //console.log('에러!!', err);
     res.status(500).json({ message: '로그인 실패' });
     return;
   }
