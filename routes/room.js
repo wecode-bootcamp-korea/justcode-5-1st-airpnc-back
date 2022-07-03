@@ -22,7 +22,7 @@ router.get('/home', asyncWrap(roomsForHomeController));
 router.post('/home', asyncWrap(roomsForHomeController));
 
 // READ ROOMS For Logged User
-//router.get('/home/:id', asyncWrap(homeForLoggedUsersController));
+router.get('/home/:id', asyncWrap(homeForLoggedUsersController));
 // FOR FILTER
 router.post('/home/:id', asyncWrap(homeForLoggedUsersController));
 
