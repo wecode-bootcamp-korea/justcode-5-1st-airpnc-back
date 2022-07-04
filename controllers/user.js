@@ -1,4 +1,4 @@
-const { signup, login } = require('../services/user');
+const { signup, login, myPageService } = require('../services/user');
 
 async function signupController(req, res) {
   const { email, password, name, phone_number } = req.body;
@@ -25,4 +25,14 @@ async function loginController(req, res) {
   }
 }
 
-module.exports = { signupController, loginController };
+async function myPageController(req, res) {
+  try {
+    const email = req.params.email;
+    const myPage_info = await myPageService(email);
+    return res.status(201).json(myPage_info);
+  } catch (err) {
+    return res.status(500).json({ message: err });
+  }
+}
+
+module.exports = { signupController, loginController, myPageController };

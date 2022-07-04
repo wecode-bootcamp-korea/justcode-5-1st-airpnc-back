@@ -56,4 +56,9 @@ async function login(email, password) {
   }
 }
 
-module.exports = { signup, login };
+async function myPageService(email) {
+  const myInfo = await readUserByEmail(email);
+  return myInfo;
+}
+
+module.exports = { signup, login, myPageService };

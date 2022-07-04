@@ -64,8 +64,9 @@ async function deleteReviewDao(id) {
   DELETE FROM review WHERE id=${id}`;
 }
 
-function updateReviewDao(review, score, id) {
-  return prisma.$queryRaw`
+async function updateReviewDao(review, score, id) {
+  console.log(review, score, id, 333);
+  await prisma.$queryRaw`
   update review set review=${review}, score=${score} where id=${id}`;
 }
 
