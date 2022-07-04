@@ -13,24 +13,35 @@ async function makeReservation(reservationDto) {
 async function getReservationList(user_id) {
   const ReserevationList =
     await prisma.$queryRaw`SELECT reservation.id, reservation.room_id, reservation.reservation_no, 
-  reservation.created_at, reservation.guests , reservation.check_in, reservation.check_out, (SELECT JSON_ARRAYAGG(CASE WHEN photo.file_url IS NOT NULL THEN JSON_OBJECT('url',photo.file_url) END) FROM photo GROUP BY room_id) AS photo_url,
+  reservation.created_at, reservation.guests , reservation.check_in, reservation.check_out,
    room.name,city.name AS city,city.country from reservation JOIN room ON reservation.room_id = room.id JOIN room_city ON reservation.room_id = room_city.room_id 
    JOIN city ON room_city.city_id=city.id WHERE reservation.user_id = ${user_id}`;
   return ReserevationList;
 }
 
 async function getToReviewList(user_id) {
-  const ToReviewList =
-    await prisma.$queryRaw`SELECT reservation.id,reservation.room_id,
-    room.name,city.name AS city, city.country , review.review, (SELECT JSON_ARRAYAGG(CASE WHEN photo.file_url IS NOT NULL THEN JSON_OBJECT('url',photo.file_url) END)
-    FROM photo JOIN reservation ON photo.room_id = reservation.room_id WHERE reservation.user_id = ${user_id} GROUP BY photo.room_id) AS photo_url
-     from reservation JOIN room ON reservation.room_id = room.id
-    JOIN room_city ON reservation.room_id = room_city.room_id
-   JOIN city ON room_city.city_id=city.id
-   LEFT JOIN review ON reservation.id = review.reservation_id
-   WHERE reservation.user_id = ${user_id} AND reservation.check_out <= NOW() AND review.review is null `;
+  const ToReviewList = prisma.$queryRaw`SELECT reservation.id,reservation.room_id, 
+  room.name,city.name AS city, city.country , review.review
+   from reservation JOIN room ON reservation.room_id = room.id 
+  JOIN room_city ON reservation.room_id = room_city.room_id 
+ JOIN city ON room_city.city_id=city.id
+ LEFT JOIN review ON reservation.id = review.reservation_id 
+ WHERE reservation.user_id = ${user_id} AND reservation.check_in <= now() AND review.review is null`;
   return ToReviewList;
 }
+// async function getToReviewList(user_id) {
+//   const [ToReviewList, photoList] = await prisma.$transaction([
+//     prisma.$queryRaw`SELECT reservation.id,reservation.room_id,
+//     room.name,city.name AS city, city.country , review.review
+//      from reservation JOIN room ON reservation.room_id = room.id
+//     JOIN room_city ON reservation.room_id = room_city.room_id
+//    JOIN city ON room_city.city_id=city.id
+//    LEFT JOIN review ON reservation.id = review.reservation_id
+//    WHERE reservation.user_id = ${user_id} AND review.review is null`,
+//     prisma.$queryRaw`SELECT room.id,JSON_ARRAYAGG(CASE WHEN photo.file_url IS NOT NULL THEN JSON_OBJECT('url',photo.file_url) END) AS photo_url FROM photo JOIN room ON photo.room_id = room.id JOIN reservation ON room.id = reservation.room_id where reservation.user_id=${user_id} GROUP BY room.id;`,
+//   ]);
+//   return [ToReviewList, photoList];
+// }
 
 async function deleteReservation(reservation_no) {
   await prisma.$queryRaw`DELETE FROM reservation WHERE reservation_no=${reservation_no}`;

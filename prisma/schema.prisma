@@ -11,6 +11,7 @@ model city {
   id        Int         @id @default(autoincrement())
   country   String?     @db.VarChar(50)
   name      String      @db.VarChar(50)
+  room      room[]
   room_city room_city[] @ignore
 }
 
@@ -84,9 +85,11 @@ model room {
   baths            Float?           @db.Float
   instant_book     Boolean?
   host_id          Int?
+  city_id          Int?
   residential_type Int?
   room_type        Int?
   location_type    Int?
+  city             city?            @relation(fields: [city_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "room_ibfk_5")
   users            users?           @relation(fields: [host_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "room_ibfk_1")
   locationType     locationType?    @relation(fields: [location_type], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "room_ibfk_4")
   residentialType  residentialType? @relation(fields: [residential_type], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "room_ibfk_3")
@@ -101,6 +104,7 @@ model room {
   @@index([location_type], map: "location_type")
   @@index([residential_type], map: "residential_type")
   @@index([room_type], map: "room_type")
+  @@index([city_id], map: "city_id")
 }
 
 model roomType {
