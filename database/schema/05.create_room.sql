@@ -21,3 +21,5 @@ CREATE TABLE room
   foreign key (residential_type) references residentialType(id) ON DELETE CASCADE,
   foreign key (location_type) references locationType(id) ON DELETE CASCADE
 );
+
+alter table room add foreign key(city_id) references city(id);
