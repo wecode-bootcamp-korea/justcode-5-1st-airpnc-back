@@ -7,7 +7,7 @@ const cors = require('cors');
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-//const homeRoutes = require('./routes/home');
+
 const homeRoutes = require('./routes/room');
 const routes = require('./routes');
 const userRouter = require('./routes/user');

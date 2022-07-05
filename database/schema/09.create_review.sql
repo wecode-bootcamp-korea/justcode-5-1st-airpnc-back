@@ -12,3 +12,7 @@ CREATE TABLE review(
   FOREIGN key(room_id) REFERENCES room(id) ON DELETE CASCADE,
   FOREIGN key(reservation_id) REFERENCES reservation(id) ON DELETE CASCADE
 );
+
+ALTER TABLE review
+MODIFY
+    `updated_at` datetime ON UPDATE CURRENT_TIMESTAMP;
