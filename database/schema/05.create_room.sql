@@ -17,9 +17,8 @@ CREATE TABLE room
   location_type int,
   primary key (id),
   foreign key (host_id) references users(id) ON DELETE CASCADE,
+  foreign key (city_id) references city(id) ON DELETE CASCADE,
   foreign key (room_type) references roomType(id) ON DELETE CASCADE,
   foreign key (residential_type) references residentialType(id) ON DELETE CASCADE,
   foreign key (location_type) references locationType(id) ON DELETE CASCADE
-);
-
-alter table room add foreign key(city_id) references city(id);
+)
