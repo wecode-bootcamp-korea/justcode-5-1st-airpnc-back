@@ -4,11 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "distribute": "npm i && pm2 start server.js --name <project-back> -i max"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "pm2": "^5.1.2",
     "@prisma/client": "^3.15.2",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.1",
