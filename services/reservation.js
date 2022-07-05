@@ -33,12 +33,12 @@ const enrollReservation = async (
 };
 
 const selectReservations = async user_id => {
-  const reservations = await getReservationList(user_id);
-  return reservations;
+  const [ReserevationList, photos] = await getReservationList(user_id);
+  return [ReserevationList, photos];
 };
 const selectToReviewList = async user_id => {
-  const toReviewList = await getToReviewList(user_id);
-  return toReviewList;
+  const [ToReviewList, photoList] = await getToReviewList(user_id);
+  return [ToReviewList, photoList];
 };
 
 const reservationDelete = async reservation_no => {

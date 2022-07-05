@@ -39,8 +39,8 @@ const setReservation = async (req, res, next) => {
 const getReservation = async (req, res, next) => {
   try {
     const id = req.params.userId;
-    const reservationList = await selectReservations(id);
-    return res.status(201).json(reservationList);
+    const [ReserevationList, photos] = await selectReservations(id);
+    return res.status(201).json([ReserevationList, photos]);
   } catch (err) {
     next(err);
   }
@@ -49,8 +49,8 @@ const getReservation = async (req, res, next) => {
 const ToReviewListController = async (req, res, next) => {
   try {
     const id = req.params.userId;
-    const toReviewList = await selectToReviewList(id);
-    return res.status(201).json(toReviewList);
+    const [ToReviewList, photoList] = await selectToReviewList(id);
+    return res.status(201).json([ToReviewList, photoList]);
   } catch (err) {
     next(err);
   }
