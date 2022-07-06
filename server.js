@@ -7,9 +7,7 @@ const cors = require('cors');
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-
 const homeRoutes = require('./routes/room');
-const routes = require('./routes');
 const userRouter = require('./routes/user');
 const detailRoutes = require('./routes/detail');
 const reservationRoutes = require('./routes/reservation');
@@ -52,7 +50,7 @@ const start = async () => {
   try {
     console.log('start trying here');
     server.listen(PORT, () => {
-      console.log(`server start : http://localhost:${PORT}/`);
+      console.log(`server start : http://13.124.219.16:${PORT}/`);
     });
   } catch (err) {
     console.err(err);
