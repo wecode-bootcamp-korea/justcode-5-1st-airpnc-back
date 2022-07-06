@@ -1,7 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-function createReview(review, score, user_id, room_id, reservation_id) {
+function createReviewDao(review, score, user_id, room_id, reservation_id) {
   return prisma.$queryRaw`
   Insert Into review(review, score, user_id, room_id, reservation_id) 
   VALUES (${review}, ${score}, ${user_id}, ${room_id}, ${reservation_id})`;
@@ -55,8 +55,7 @@ async function readMyReviewsDao(id) {
 
 async function isValidReview(id) {
   return await prisma.$queryRaw`
-	SELECT id FROM review WHERE id = ${id}
-`;
+	SELECT id FROM review WHERE id = ${id}`;
 }
 
 async function deleteReviewDao(id) {
@@ -65,13 +64,14 @@ async function deleteReviewDao(id) {
 }
 
 async function updateReviewDao(review, score, id) {
-  console.log(review, score, id, 333);
+  //console.log(review, score, id, 333);
   await prisma.$queryRaw`
-  update review set review=${review}, score=${score} where id=${id}`;
+  update review set review=${review}, score=${score} 
+  where id=${id}`;
 }
 
 module.exports = {
-  createReview,
+  createReviewDao,
   readReviewsDao,
   readMyReviewsDao,
   deleteReviewDao,

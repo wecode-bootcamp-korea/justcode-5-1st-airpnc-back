@@ -1,5 +1,5 @@
 const {
-  writeReview,
+  writeReviewService,
   isExistReview,
   readReviewService,
   readMyReviewService,
@@ -7,10 +7,18 @@ const {
   updateReviewService,
 } = require('../services/ReviewService');
 
-const createReview = async (req, res) => {
+const createReviewController = async (req, res) => {
   try {
     const { review, score, user_id, room_id, reservation_id } = req.body;
-    await writeReview(review, score, user_id, room_id, reservation_id);
+    console.log(
+      'createReviewController : ',
+      review,
+      score,
+      user_id,
+      room_id,
+      reservation_id
+    );
+    await writeReviewService(review, score, user_id, room_id, reservation_id);
 
     return res.status(201).json({ message: 'CREATED' });
   } catch (err) {
@@ -44,16 +52,27 @@ const readMyReviewController = async (req, res) => {
 };
 
 const deleteReviewController = async (req, res) => {
-  const id = req.params.id;
-  await deleteReviewService(id);
-  return res.status(200).json({ message: 'DELETED' });
+  try {
+    const id = req.params.id;
+    console.log('deleteReviewController id : ', id);
+    await deleteReviewService(id);
+    return res.status(200).json({ message: 'DELETED' });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: err.message });
+  }
 };
 
 const updateReviewController = async (req, res) => {
   try {
     let { id } = req.params;
     const { review, score } = req.body;
-    console.log(review, score, id);
+    console.log(
+      'updateReviewController - review, score, id : ',
+      review,
+      score,
+      id
+    );
     await updateReviewService(review, score, id);
 
     return res.status(201).json({ message: 'UPDATED' });
@@ -64,7 +83,7 @@ const updateReviewController = async (req, res) => {
 };
 
 module.exports = {
-  createReview,
+  createReviewController,
   readReviewController,
   readMyReviewController,
   deleteReviewController,

@@ -1,5 +1,5 @@
 const {
-  createReview,
+  createReviewDao,
   readReviewsDao,
   readMyReviewsDao,
   deleteReviewDao,
@@ -7,14 +7,32 @@ const {
   updateReviewDao,
 } = require('../models/ReviewDao');
 
-async function writeReview(review, score, user_id, room_id, reservation_id) {
-  await createReview(review, score, user_id, room_id, reservation_id);
+async function writeReviewService(
+  review,
+  score,
+  user_id,
+  room_id,
+  reservation_id
+) {
+  await createReviewDao(review, score, user_id, room_id, reservation_id);
 }
 
 async function readReviewService(id) {
   const reviews = await readReviewsDao(id);
   return reviews;
 }
+
+/*
+const readReviewService = async id => {
+  const reviews = await readReviewsDao(id);
+  if (!reviews) {
+    const error = new Error('ROOM_REVIEW_LOAD_FAILED');
+    error.statusCode = 400;
+    throw error;
+  }
+
+  return reviews;
+}; */
 
 async function readMyReviewService(id) {
   const myReviews = await readMyReviewsDao(id);
@@ -41,7 +59,7 @@ async function updateReviewService(review, score, id) {
 }
 
 module.exports = {
-  writeReview,
+  writeReviewService,
   readReviewService,
   readMyReviewService,
   deleteReviewService,
