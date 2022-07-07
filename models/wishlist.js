@@ -6,18 +6,25 @@ async function getWishListByUserId(userid) {
   const dbWishList = await prisma.$queryRaw`
 
   SELECT
-  room.id,
-  room.price,
-  room.address,
-  room.name,
-  room.description
+    r.id,
+    r.price,
+    r.address,
+    r.name,
+    r.description,
+    p.file_url
 
-  FROM room
+  FROM room as r
+  
+  LEFT JOIN wishlist on wishlist.room_id = r.id
+  JOIN(
+	SELECT MAX(photo.id) AS photo_id,room_id, MAX(file_url) as file_url
 
-  LEFT JOIN wishlist on wishlist.room_id = room.id
-  JOIN users on users.id = wishlist.user_id
+	FROM photo
 
-  WHERE user_id = ${userid}
+	GROUP BY room_id
+) 	AS p ON r.id = p.room_id
+  
+WHERE wishlist.user_id = 10
 
   `;
   // console.log('test: ', dbWishList);
