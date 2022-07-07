@@ -39,6 +39,7 @@ const readReviewController = async (req, res) => {
   }
 };
 
+/*
 const readMyReviewController = async (req, res) => {
   try {
     let { id } = req.params;
@@ -48,6 +49,17 @@ const readMyReviewController = async (req, res) => {
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: err.message });
+  }
+};*/
+
+// readMyReviewController - 사진까지 뽑아오도록 수정
+const readMyReviewController = async (req, res, next) => {
+  try {
+    let { id } = req.params;
+    const [selectedMyReview, photos] = await readMyReviewService(id);
+    return res.status(201).json([selectedMyReview, photos]);
+  } catch (err) {
+    next(err);
   }
 };
 

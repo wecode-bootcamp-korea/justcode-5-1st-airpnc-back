@@ -34,10 +34,17 @@ const readReviewService = async id => {
   return reviews;
 }; */
 
+/*
 async function readMyReviewService(id) {
   const myReviews = await readMyReviewsDao(id);
   return myReviews;
-}
+}*/
+
+// readMyReviewService - 사진까지 뽑아오도록 수정
+const readMyReviewService = async id => {
+  const [selectedMyReview, photos] = await readMyReviewsDao(id);
+  return [selectedMyReview, photos];
+};
 
 // checkReviewExist can be moved into middleware dir
 async function checkReviewExist(id) {
