@@ -3,7 +3,7 @@ const asyncWrap = require('../async-wrap');
 const router = Router();
 
 const {
-  createReview,
+  createReviewController,
   readReviewController,
   readMyReviewController,
   deleteReviewController,
@@ -11,8 +11,8 @@ const {
 } = require('../controllers/ReviewController');
 
 //router.get('/', reviewController.getReview);
-//console.log('콘솔!!', createReview);
-router.post('/', createReview);
+//console.log('콘솔!!', createReviewController);
+router.post('/', createReviewController);
 router.get('/:id', readReviewController);
 router.get('/my/:id', readMyReviewController);
 router.delete('/:id', asyncWrap(deleteReviewController));

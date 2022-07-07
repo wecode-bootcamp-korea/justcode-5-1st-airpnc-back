@@ -1,5 +1,5 @@
 const {
-  createReview,
+  createReviewDao,
   readReviewsDao,
   readMyReviewsDao,
   deleteReviewDao,
@@ -7,8 +7,14 @@ const {
   updateReviewDao,
 } = require('../models/ReviewDao');
 
-async function writeReview(review, score, user_id, room_id, reservation_id) {
-  await createReview(review, score, user_id, room_id, reservation_id);
+async function writeReviewService(
+  review,
+  score,
+  user_id,
+  room_id,
+  reservation_id
+) {
+  await createReviewDao(review, score, user_id, room_id, reservation_id);
 }
 
 async function readReviewService(id) {
@@ -16,10 +22,29 @@ async function readReviewService(id) {
   return reviews;
 }
 
+/*
+const readReviewService = async id => {
+  const reviews = await readReviewsDao(id);
+  if (!reviews) {
+    const error = new Error('ROOM_REVIEW_LOAD_FAILED');
+    error.statusCode = 400;
+    throw error;
+  }
+
+  return reviews;
+}; */
+
+/*
 async function readMyReviewService(id) {
   const myReviews = await readMyReviewsDao(id);
   return myReviews;
-}
+}*/
+
+// readMyReviewService - 사진까지 뽑아오도록 수정
+const readMyReviewService = async id => {
+  const [selectedMyReview, photos] = await readMyReviewsDao(id);
+  return [selectedMyReview, photos];
+};
 
 // checkReviewExist can be moved into middleware dir
 async function checkReviewExist(id) {
@@ -36,12 +61,23 @@ async function deleteReviewService(id) {
   await deleteReviewDao(id);
 }
 
-async function updateReviewService(review, score, id) {
-  await updateReviewDao(review, score, id);
-}
+const updateReviewService = async (review, score, id) => {
+  // 해당 리뷰를 데이터베이스 내에서 수정
+  const affectedUpdatedRows = await updateReviewDao(review, score, id);
+  console.log('affectedUpdatedRows : ', affectedUpdatedRows);
+
+  // 리뷰 수정이 일어나지 않을 경우 에러 처리
+  if (affectedUpdatedRows == 0) {
+    const error = new Error('UPDATING FAILED');
+    error.statusCode = 400;
+    throw error;
+  }
+
+  return affectedUpdatedRows;
+};
 
 module.exports = {
-  writeReview,
+  writeReviewService,
   readReviewService,
   readMyReviewService,
   deleteReviewService,
