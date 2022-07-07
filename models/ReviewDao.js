@@ -87,10 +87,11 @@ async function deleteReviewDao(id) {
 }
 
 async function updateReviewDao(review, score, id) {
-  //console.log(review, score, id, 333);
-  await prisma.$queryRaw`
-  update review set review=${review}, score=${score} 
-  where id=${id}`;
+  console.log(review, score, id, 333);
+  const row = await prisma.$executeRaw`
+  update review set review=${review}, score=${score} where id=${id}`;
+  console.log(row);
+  return row;
 }
 
 module.exports = {

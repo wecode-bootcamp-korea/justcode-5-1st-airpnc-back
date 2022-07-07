@@ -77,7 +77,7 @@ const deleteReviewController = async (req, res) => {
 
 const updateReviewController = async (req, res) => {
   try {
-    let { id } = req.params;
+    const { id } = req.params;
     const { review, score } = req.body;
     console.log(
       'updateReviewController - review, score, id : ',
@@ -85,12 +85,15 @@ const updateReviewController = async (req, res) => {
       score,
       id
     );
-    await updateReviewService(review, score, id);
+
+    const updatedReview = await updateReviewService(review, score, id);
 
     return res.status(201).json({ message: 'UPDATED' });
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ message: err.message });
+    return res
+      .status(err.statusCode || 500)
+      .json(err.message || { message: 'UPDATE_RESERVATION_FAILED' });
   }
 };
 

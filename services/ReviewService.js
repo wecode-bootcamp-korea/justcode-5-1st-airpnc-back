@@ -61,9 +61,20 @@ async function deleteReviewService(id) {
   await deleteReviewDao(id);
 }
 
-async function updateReviewService(review, score, id) {
-  await updateReviewDao(review, score, id);
-}
+const updateReviewService = async (review, score, id) => {
+  // 해당 리뷰를 데이터베이스 내에서 수정
+  const affectedUpdatedRows = await updateReviewDao(review, score, id);
+  console.log('affectedUpdatedRows : ', affectedUpdatedRows);
+
+  // 리뷰 수정이 일어나지 않을 경우 에러 처리
+  if (affectedUpdatedRows == 0) {
+    const error = new Error('UPDATING FAILED');
+    error.statusCode = 400;
+    throw error;
+  }
+
+  return affectedUpdatedRows;
+};
 
 module.exports = {
   writeReviewService,
