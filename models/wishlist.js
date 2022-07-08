@@ -24,7 +24,7 @@ async function getWishListByUserId(userid) {
 	GROUP BY room_id
 ) 	AS p ON r.id = p.room_id
   
-WHERE wishlist.user_id = 10
+WHERE wishlist.user_id = ${userid}
 
   `;
   // console.log('test: ', dbWishList);
