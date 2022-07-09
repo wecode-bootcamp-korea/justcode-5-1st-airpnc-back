@@ -3,8 +3,8 @@ const prisma = new PrismaClient();
 
 async function createUser(createUserDto) {
   const { email, password, name, phone_number } = createUserDto;
-  console.log(createUserDto, '포스트맨');
-  return await prisma.$queryRaw`
+  // console.log(createUserDto, '포스트맨');
+  await prisma.$queryRaw`
 INSERT INTO
     users (email, password, name,phone_number)
 VALUES (${email},${password}, ${name},${phone_number})`;
@@ -22,7 +22,7 @@ password
 FROM users
 WHERE email = ${email}
 `;
-  console.log(users, '확인');
+  // console.log(users, '확인');
   return users;
 }
 

@@ -27,8 +27,7 @@ async function signup(userinfo) {
     name,
     phone_number,
   };
-
-  return await createUser(createUserDto);
+  await createUser(createUserDto);
 }
 
 async function login(email, password) {
@@ -56,9 +55,4 @@ async function login(email, password) {
   }
 }
 
-async function myPageService(email) {
-  const myInfo = await readUserByEmail(email);
-  return myInfo;
-}
-
-module.exports = { signup, login, myPageService };
+module.exports = { signup, login };
