@@ -2,11 +2,12 @@ const { signup, login, myPageService } = require('../services/user');
 
 async function signupController(req, res) {
   const { email, password, name, phone_number } = req.body;
-  console.log(req.body);
+  console.log(req.body, 'req.body');
   try {
     await signup({ email, password, name, phone_number });
     return res.status(201).json({ message: '회원가입 성공' });
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: '회원가입 실패' });
     return;
   }
